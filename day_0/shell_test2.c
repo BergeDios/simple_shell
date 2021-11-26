@@ -2,6 +2,33 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+/**
+ * _getcommand - gets the line and separates into tokens
+ * @token_list: pointer to token list
+ *
+ * Return: 0 on succes | -1 on failure
+ */
+int _getcommand(char *token_list[])
+{
+	char *token = NULL, *line[1024];
+	int pos_tok = 0;
+	size_t n;
+	n = 1024;
+
+	printf("> ");
+	getline(line, &n, stdin);
+
+	token = strtok(*line, " ");
+	while (token != NULL)
+	{
+		printf("t: %s, ", token);
+		token_list[pos_tok] = token;
+		pos_tok++;
+		token = strtok(NULL, " ");
+	}
+	free(*line);
+	return (0);
+}
 
 /**
  * _getenv - gets path dirs and puts it into array
@@ -21,9 +48,9 @@ int _getenv(char *path_list[], char *envp[])
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
-			printf("token is: %s\n", token);
 			while (token != NULL)
 			{
+				printf("token is: %s\n", token);
 				path_list[pos_path] = token;
 				pos_path++;
 				token = strtok(NULL, ":");
@@ -38,37 +65,24 @@ int _getenv(char *path_list[], char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char *buff[1024], *token, *path_list[1024] = { NULL }, *token_list[1024];
-	size_t buffsize;
-	int pos_tok = 0, pos_path;
-	DIR *dr;
-	struct dirent *de;
+	char *path_list[1024], *token_list[1024], *s_path;
+	int pos_path;
 
-	buffsize = 1024, *path_list = NULL, *token_list = NULL;
+	(void)argc, (void)argv;
+	*path_list = NULL, *token_list = NULL;
+
 	while (1)
 	{
-		printf("$ ");
-		getline(buff, &buffsize, stdin);
-
-		token = strtok(*buff, " ");
-		while (token != NULL)
-		{
-			token_list[pos_tok] = token;
-			pos_tok++;
-			token = strtok(NULL, " ");
-		}
-		printf("list of tokens\n");
-		for (pos_tok = 0; token_list[pos_tok]; pos_tok++)
-			printf("token is: %s\n", token_list[pos_tok]);
-
+		_getcommand(token_list);
 		_getenv(path_list, envp);
 		for (pos_path = 0; path_list[pos_path]; pos_path++)
+			printf("%s\n", path_list[pos_path]);
+		for (pos_path = 0; path_list[pos_path]; pos_path++)
 		{
-			dr = opendir(path_list[pos_path]);
-			if (dr == NULL)
-				return (-1);
-			while ((de = readdir(dr)) != NULL)
-				printf("%s\n", de->d_name);
+			s_path = strcat(path_list[pos_path], "/");
+			s_path = strcat(s_path, token_list[0]);
+			printf("%s\n", s_path);
+
 		}
 	}
 	return (0);
