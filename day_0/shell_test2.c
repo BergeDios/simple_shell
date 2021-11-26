@@ -13,8 +13,9 @@ int _getcommand(char *token_list[])
 	char *token = NULL, *line[1024];
 	int pos_tok = 0;
 	size_t n;
-	n = 1024;
 
+	n = 1024;
+	*line = NULL;
 	printf("> ");
 	getline(line, &n, stdin);
 
@@ -27,6 +28,7 @@ int _getcommand(char *token_list[])
 		token = strtok(NULL, " ");
 	}
 	free(*line);
+	free(token);
 	return (0);
 }
 
@@ -41,6 +43,7 @@ int _getenv(char *path_list[], char *envp[])
 	int i = 0, pos_path = 0;
 	char *token;
 
+	token = NULL;
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
@@ -58,6 +61,7 @@ int _getenv(char *path_list[], char *envp[])
 		}
 
 	}
+	free(token);
 	if (path_list == NULL)
 		return (-1);
 	return (0);
@@ -66,10 +70,10 @@ int _getenv(char *path_list[], char *envp[])
 int main(int argc, char *argv[], char *envp[])
 {
 	char *path_list[1024], *token_list[1024], *s_path;
-	int pos_path;
+	int pos_path = 0;
 
 	(void)argc, (void)argv;
-	*path_list = NULL, *token_list = NULL;
+	*path_list = NULL, *token_list = NULL, s_path = NULL;
 
 	while (1)
 	{
