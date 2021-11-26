@@ -47,9 +47,9 @@ int _getenv(char *path_list[], char *envp[])
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
-			printf("token is: %s\n", token);
 			while (token != NULL)
 			{
+				printf("token is: %s\n", token);
 				path_list[pos_path] = token;
 				pos_path++;
 				token = strtok(NULL, ":");
@@ -73,16 +73,7 @@ int main(int argc, char *argv[], char *envp[])
 	buffsize = 1024, *path_list = NULL, *token_list = NULL;
 	while (1)
 	{
-		printf("$ ");
-		getline(buff, &buffsize, stdin);
-
-		token = strtok(*buff, " ");
-		while (token != NULL)
-		{
-			token_list[pos_tok] = token;
-			pos_tok++;
-			token = strtok(NULL, " ");
-		}
+		_getcommand(token_list);
 		printf("list of tokens\n");
 		for (pos_tok = 0; token_list[pos_tok]; pos_tok++)
 			printf("token is: %s\n", token_list[pos_tok]);
@@ -94,7 +85,9 @@ int main(int argc, char *argv[], char *envp[])
 			if (dr == NULL)
 				return (-1);
 			while ((de = readdir(dr)) != NULL)
-				printf("%s\n", de->d_name);
+				printf("token_list[0]: %s\n", token_list[0]);
+				if (strcmp(de->d_name, "ls") == 0)
+					printf("encontre: %s\n", de->d_name);
 		}
 	}
 	return (0);
