@@ -27,8 +27,6 @@ int _getcommand(char *token_list[])
 		pos_tok++;
 		token = strtok(NULL, " ");
 	}
-	free(*line);
-	free(token);
 	return (0);
 }
 
@@ -40,14 +38,17 @@ int _getcommand(char *token_list[])
  */
 int _getenv(char *path_list[], char *envp[])
 {
-	int i = 0, pos_path = 0;
-	char *token;
+	int i = 0, pos_path = 0, l = 0;
+	char *token, *tokcopy;
 
-	token = NULL;
+	token = NULL, tokcopy = NULL;
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
-		if (strcmp(token, "PATH") == 0)
+		l = strlen(token);
+		tokcopy = strncpy(tokcopy, token, l);
+
+		if (strcmp(tokcopy, "PATH") == 0)
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
@@ -61,7 +62,6 @@ int _getenv(char *path_list[], char *envp[])
 		}
 
 	}
-	free(token);
 	if (path_list == NULL)
 		return (-1);
 	return (0);
