@@ -10,12 +10,12 @@
  */
 int _getcommand(char *token_list[])
 {
-	char *token = NULL, *line[1024];
+	char *token, *line[1024];
 	int pos_tok = 0;
 	size_t n;
 
+	token = NULL;
 	n = 1024;
-	*line = NULL;
 	printf("> ");
 	getline(line, &n, stdin);
 
@@ -39,16 +39,12 @@ int _getcommand(char *token_list[])
 int _getenv(char *path_list[], char *envp[])
 {
 	int i = 0, pos_path = 0;
-	char *token;
-	size_t l = 4;
-
-	token = NULL;
-	printf("entre a getenv\n");
+	char *token = NULL;
 
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
-		if (strncmp(token, "PATH", l) == 0)
+		if (strcmp(token, "PATH") == 0)
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
