@@ -24,7 +24,6 @@ char *_strcat(char *dest, char *src)
 
 	return (dest);
 }
-#include "shell.h"
 /**
  * _strcpy - copies the string pointed to by src,
  * including the terminating null byte, to the
@@ -46,7 +45,6 @@ char *_strcpy(char *dest, char *src)
 	}
 	return (dest);
 }
-#include "shell.h"
 
 /**
  * _strlen - returns the length of a string
@@ -64,7 +62,6 @@ int _strlen(char *s)
 	}
 	return (j);
 }
-#include "shell.h"
 /**
  * _strcmp - compares two strings
  * @s1: first string.
@@ -76,11 +73,11 @@ int _strlen(char *s)
 
 int _strncmp(char *s1, char *s2, size_t n)
 {
-	int i = 0, op = 0;
+	size_t i = 0, op = 0;
 
 	while (op == 0)
 	{
-		if ((*(s1 + i) == '\0') && (*(s2 + i) == '\0') || i == n)
+		if (((*(s1 + i) == '\0') && (*(s2 + i) == '\0')) || i == n)
 			break;
 		op = *(s1 + i) - *(s2 + i);
 		i++;
