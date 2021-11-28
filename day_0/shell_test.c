@@ -1,19 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
+#include "shell.h"
 /**
  * _getcommand - gets the line and separates into tokens
  * @token_list: pointer to token list
- *
+ * @line: pointer to prompt input
  * Return: 0 on succes | -1 on failure
  */
-int _getcommand(char *token_list[], char *line[])
+int _getcommand(char *token_list[], char *line)
 {
 	char *token = NULL;
 	int pos_tok = 0;
 
-	token = strtok(*line, " ");
+	token = strtok(line, " ");
 	while (token != NULL)
 	{
 		token_list[pos_tok] = token;
@@ -60,65 +57,60 @@ int _getenv(char *path_list[], char *envp[])
 }
 
 
-int _findcommand(char *path_list[], char *command)
+int _findcommand(char *path_list[], char *token_list[], char *envp[])
 {
 	char path[1024];
-	int pos_path = 0;
+	int pos_path = 0, a = 0;
+	pid_t id = 0;
+
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
 	{
 		strcpy(path, path_list[pos_path]);
 		strcat(path, "/");
-		strcat(path, command);
-		printf("concatenated path: %s", path);
-		/**
-		 * Cant succesfully modify path_list with path value
-		 *
-		 * strcpy(path_list[pos_path], path);
-		 */
+		strcat(path, token_list[0]);
+		a = access(path, (R_OK | X_OK));
+		if (a == 0)
+		{
+			id = fork();
+			if (id != 0)
+				wait(0);
+			else
+			{
+				printf("hello from the child process\n");
+				execve(path, token_list, envp);
+			}
+		}
 	}
 
 	return (0);
 }
 
 
-
-
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *line[1024]/*, *s_path*/;
-	int i; /*pos_path = 0;*/
+	char *path_list[1024], *token_list[1024], *line/*, *s_path*/;
 	size_t n;
 
 	n = 1024;
-	(void)argc, (void)argv, (void)envp;
-	*line = NULL, *token_list = NULL, *path_list = NULL/*, s_path = NULL*/;
+	(void)argc, (void)argv;
+	line = NULL, *token_list = NULL, *path_list = NULL/*, s_path = NULL*/;
 
 	while (1)
 	{
 		printf("> ");
-		if ((getline(line, &n, stdin)) >= 0)
+		if ((getline(&line, &n, stdin)) >= 0)
+		{
+			line[strlen(line) - 1] = '\0';
 			_getcommand(token_list, line);
+		}
 
 		_getenv(path_list, envp);
 
-		_findcommand(&path_list, token_list[0]);
+		_findcommand(path_list, token_list, envp);
 
-		printf("\n****COMMAND TOKENS****\n\n");
-		for (i = 0; token_list[i]; i++)
-			printf("token[%d]: %s\n", i, token_list[i]);
-	
-		printf("\n****PATH DIRECTORIES****\n\n");
-		for (i = 0; path_list[i]; i++)
-			printf("path[%d]: %s\n", i, path_list[i]);
-		
-		
-		
-		/*free line*/
-		for (i = 0; line[i]; i++)
-			free(line[i]);
 
 	}
-
+	free(line);
 	return (0);
 
 }

@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <sys/wait.h>
+#include "shell.h"
 /**
  * _getcommand - gets the line and separates into tokens
  * @token_list: pointer to token list
@@ -64,13 +59,11 @@ int _getenv(char *path_list[], char *envp[])
 
 int _findcommand(char *path_list[], char *commandyarg[], char *envp[])
 {
-	char path[1024], *argv[1024];
+	char path[1024];
 	int pos_path = 0, a;
 	pid_t id;
 
-	a = 0, id = 0, *argv = NULL;
-	for (pos_path = 0; commandyarg[pos_path]; pos_path++)
-		argv[pos_path] = commandyarg[pos_path];
+	a = 0, id = 0;
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
 	{
 		strcpy(path, path_list[pos_path]);
@@ -85,7 +78,7 @@ int _findcommand(char *path_list[], char *commandyarg[], char *envp[])
 			else
 			{
 				printf("hello from the child process\n");
-				execve(path, argv, envp);
+				execve(path, commandyarg, envp);
 			}
 		}
 		/**
@@ -123,11 +116,8 @@ int main(int argc, char *argv[], char *envp[])
 
 		_findcommand(path_list, token_list, envp);
 
-		/*free line*/
-		free(line);
-
 	}
-
+	free(line);
 	return (0);
 
 }
