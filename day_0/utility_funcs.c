@@ -45,7 +45,10 @@ char *_strcpy(char *dest, char *src)
 	}
 	return (dest);
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6dfb14843fc9e19e1a5e0bfe35a45ab7f056d027
 /**
  * _strlen - returns the length of a string
  *@s : input string
@@ -77,7 +80,11 @@ int _strncmp(char *s1, char *s2, size_t n)
 
 	while (op == 0)
 	{
+<<<<<<< HEAD
 		if (((*(s1 + i) == '\0') && (*(s2 + i) == '\0')) || i == n)
+=======
+		if (((*(s1 + i) == '\0') && (*(s2 + i)) == '\0') || i == n)
+>>>>>>> 6dfb14843fc9e19e1a5e0bfe35a45ab7f056d027
 			break;
 		op = *(s1 + i) - *(s2 + i);
 		i++;

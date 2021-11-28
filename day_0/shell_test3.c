@@ -37,7 +37,7 @@ int _getenv(char *path_list[], char *envp[])
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
-		if (strncmp(token, "PATH", l) == 0)
+		if (_strncmp(token, "PATH", l) == 0)
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
@@ -56,7 +56,7 @@ int _getenv(char *path_list[], char *envp[])
 }
 
 
-int _findcommand(char *path_list[], char *commandyarg[], char *envp[])
+int _findcommand(char *path_list[], char *token_list[], char *envp[])
 {
 	char path[1024];
 	int pos_path = 0, a;
@@ -65,9 +65,9 @@ int _findcommand(char *path_list[], char *commandyarg[], char *envp[])
 	a = 0, id = 0;
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
 	{
-		strcpy(path, path_list[pos_path]);
-		strcat(path, "/");
-		strcat(path, commandyarg[0]);
+		_strcpy(path, path_list[pos_path]);
+		_strcat(path, "/");
+		_strcat(path, token_list[0]);
 		a = access(path, (R_OK | X_OK));
 		if (a == 0)
 		{
@@ -77,7 +77,7 @@ int _findcommand(char *path_list[], char *commandyarg[], char *envp[])
 			else
 			{
 				printf("hello from the child process\n");
-				execve(path, commandyarg, envp);
+				execve(path, token_list, envp);
 			}
 		}
 	}
