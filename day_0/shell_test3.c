@@ -17,7 +17,6 @@ int _getcommand(char *token_list[], char *line)
 		pos_tok++;
 		token = strtok(NULL, " ");
 	}
-	free(token);
 	return (0);
 }
 
@@ -81,13 +80,7 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 				execve(path, token_list, envp);
 			}
 		}
-		/**
-		 * Cant succesfully modify path_list with path value
-		 *
-		 * strcpy(path_list[pos_path], path);
-		 */
 	}
-
 	return (0);
 }
 
@@ -96,12 +89,12 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *line/*, *s_path*/;
+	char *path_list[1024], *token_list[1024], *line;
 	size_t n;
 
 	n = 1024;
 	(void)argc, (void)argv;
-	line = NULL, *token_list = NULL, *path_list = NULL/*, s_path = NULL*/;
+	line = NULL, *token_list = NULL, *path_list = NULL;
 
 	while (1)
 	{
@@ -115,9 +108,8 @@ int main(int argc, char *argv[], char *envp[])
 		_getenv(path_list, envp);
 
 		_findcommand(path_list, token_list, envp);
-
+		free(line);
 	}
-	free(line);
 	return (0);
 
 }

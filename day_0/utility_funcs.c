@@ -71,11 +71,11 @@ int _strlen(char *s)
 
 int _strncmp(char *s1, char *s2, size_t n)
 {
-	int i = 0, op = 0;
+	size_t i = 0, op = 0;
 
 	while (op == 0)
 	{
-		if (((*(s1 + i) == '\0') && (*(s2 + i)) == '\0') || i == n)
+		if (((*(s1 + i) == '\0') && (*(s2 + i) == '\0')) || i == n)
 			break;
 		op = *(s1 + i) - *(s2 + i);
 		i++;
