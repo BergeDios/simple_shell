@@ -73,8 +73,6 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 		if (a == 0)
 		{
 			printf("access granted from pid: %d\n", getpid());
-			printf("entered for of findcommand\n");
-
 			id = fork();
 			if (id != 0)
 			{
@@ -122,6 +120,9 @@ int main(int argc, char *argv[], char *envp[])
 		_getenv(path_list, envp);
 
 		_findcommand(path_list, token_list, envp);
+	
+		for (i = 0; token_list[i]; i++)
+			token_list[i] = NULL;
 	}
 	
 	for (i = 0; token_list[i]; i++)
