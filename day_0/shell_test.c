@@ -77,16 +77,19 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 
 			id = fork();
 			if (id != 0)
+			{
 				wait(NULL);
+				break;
+			}
 			else
 			{
 				printf("executing from pid: %d\n", getpid());
 				execve(path, token_list, envp);
-				return (0);
+				break;
 			}
 		}
 	}
-	return (-1);
+	return (0);
 }
 
 
