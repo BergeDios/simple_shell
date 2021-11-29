@@ -7,6 +7,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 char *_strcat(char *dest, char *src);
 int _strncmp(char *s1, char *s2, size_t n);
@@ -16,5 +17,6 @@ int _getcommand(char *token_list[], char *line);
 int _getenv(char *path_list[], char *envp[]);
 int _findcommand(char *path_list[], char *commandyarg[], char *envp[]);
 int main(int argc, char *argv[], char *envp[]);
+void ctrl_c(int n);
 
 #endif

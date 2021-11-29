@@ -1,0 +1,86 @@
+.TH SIMPLE_SHELL 1 "29 November 2021" "1.0" "custom man page"
+
+.SH NAME
+.B Simple Shell
+- command language interpreter
+
+.SH SYNOPSIS
+.B shell [args]
+
+.SH DESCRIPTION
+Simple Shell is compatible version of a command language interpreter that executes commands read from the standard input. It's functionality is limited to certain shell builtin functions found in the environmental variable
+
+.SH COPYRIGHT
+Simple Shell is Copyright (C) 2021 by Santiago Goyret and Martin Casamayou
+
+.SH Invocation
+An
+.I interactive
+simple shell can be invoked by typing ./shell. Meanwhile, a
+.I non-interactive
+simple shell can also be invoked via a pipe (e.g. echo "/bin/ls" | ./shell).
+
+.SS Command Execution
+After a command has been split into words, if it results in a simple command and an optional list of arguments, the following actions are taken.
+.sp
+If the command name contains no slashes, the shell attempts to locate it. If there exists a shell function by that name that function is invoked. If the name does not match a function, the shell searches for it in the list of shell builtins. If a match is found, that builtin is invoked.
+.sp
+If the name is neither a shell function nor a builtin, and contains no slashes, the simple shell searches each element of the environmental variable PATH for a directory containing an executable file by that name. If the search is unsuccessful, the simple shell prints an error message "Error Command"
+
+.SS Sample Functions
+.sp
+echo
+.I [arguments]
+      prints to standard output the argument(s) given and prints a newline
+.sp
+ls
+.I [[flags]...[arguments]]
+      lists files in the current directory according to the flags given by user
+.sp
+pwd
+      prints working directories
+.sp
+whereis
+.I [command]
+      prints to standard output which directory the function or shell builtin can be found
+.SS Shell Builtin Commands
+.I cuando las hagamos
+
+.SH EXAMPLE
+To
+.I invoke
+simple shell:
+.sp
+.RS
+(your_terminal)$ ./shell
+.RE
+.RS
+.I >
+.RE
+
+.sp
+Sample Usage:
+.sp
+.RS
+.I >
+echo "This is pretty cool!"
+.RE
+.RS
+.I This is pretty cool!
+.RE
+.sp
+To leave simple shell and return to your terminal:
+.sp
+.RS
+.I $
+exit
+.RE
+.RS
+(your_terminal)$
+.RE
+.SH BUGS
+Bugs...
+.SH SEE ALSO
+.I bash(1), sh(1), ksh(1), csh(1)
+.SH AUTHORS
+Martin Casamayou and Santiago Goyret

@@ -1,28 +1,41 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
+#include "shell.h"
+/**
+ * ctrl_c - makes ctrl_c print prompt instead of exit
+ * @n: num from signal
+ * Return: void
+ */
+void ctrl_c(int n)
+{
+	(void)n;
+	write(STDOUT_FILENO, "\n> ", 3);
+}
+/**
+ * ctrl_d - exits program if ctrl_d pressed
+ * @n: num of chars read
+ * @line: line inputed by user
+ * Return: nothing
+ */
+void ctrl_d(int n, char *line)
+{
+	(void)n;
+	free(line);
+	write(STDOUT_FILENO, "\n", 1);
+	exit(0);
+}
 /**
  * _getcommand - gets the line and separates into tokens
  * @token_list: pointer to token list
- *
+ * @line: pointer to prompt input
  * Return: 0 on succes | -1 on failure
  */
-int _getcommand(char *token_list[])
+int _getcommand(char *token_list[], char *line)
 {
-	char *token = NULL, *line[1024];
+	char *token = NULL;
 	int pos_tok = 0;
-	size_t n;
 
-	n = 1024;
-	*line = NULL;
-	printf("> ");
-	getline(line, &n, stdin);
-
-	token = strtok(*line, " ");
+	token = strtok(line, " ");
 	while (token != NULL)
 	{
-		printf("t: %s, ", token);
 		token_list[pos_tok] = token;
 		pos_tok++;
 		token = strtok(NULL, " ");
@@ -36,15 +49,14 @@ int _getcommand(char *token_list[])
  * @envp: array of enviromental variables
  * Return: 0 if success
  */
+
 int _getenv(char *path_list[], char *envp[])
 {
-	int i = 0, pos_path = 0;
 	char *token;
+	int i = 0, pos_path = 0;
 	size_t l = 4;
 
 	token = NULL;
-	printf("entre a getenv\n");
-
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
@@ -54,7 +66,6 @@ int _getenv(char *path_list[], char *envp[])
 			token = strtok(token, ":");
 			while (token != NULL)
 			{
-				printf("token is: %s\n", token);
 				path_list[pos_path] = token;
 				pos_path++;
 				token = strtok(NULL, ":");
@@ -67,28 +78,82 @@ int _getenv(char *path_list[], char *envp[])
 	return (0);
 }
 
+
+int _findcommand(char *path_list[], char *token_list[], char *envp[])
+{
+	char path[1024];
+	int pos_path = 0, a;
+	pid_t id;
+
+	a = 0, id = 0;
+	for (pos_path = 0; path_list[pos_path]; pos_path++)
+	{
+		strcpy(path, path_list[pos_path]);
+		strcat(path, "/");
+		strcat(path, token_list[0]);
+		a = access(path, (R_OK | X_OK));
+		if (a == 0)
+		{
+			printf("access granted from pid: %d\n", getpid());
+			id = fork();
+			if (id != 0)
+			{
+				wait(NULL);
+				return (0);
+			}
+			else
+			{
+				printf("executing from pid: %d\n", getpid());
+				execve(path, token_list, envp);
+			}
+		}
+	}
+	return (-1);
+}
+
+
+
+
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *s_path;
-	int pos_path = 0;
+	char *path_list[1024], *token_list[1024], *line;
+	size_t n, r;
+	int i;
 
+	n = 1024;
 	(void)argc, (void)argv;
-	*path_list = NULL, *token_list = NULL, s_path = NULL;
+	line = NULL, *token_list = NULL, *path_list = NULL;
 
 	while (1)
 	{
-		_getcommand(token_list);
-		_getenv(path_list, envp);
-		for (pos_path = 0; path_list[pos_path]; pos_path++)
-			printf("%s\n", path_list[pos_path]);
-		for (pos_path = 0; path_list[pos_path]; pos_path++)
-		{
-			s_path = strcat(path_list[pos_path], "/");
-			s_path = strcat(s_path, token_list[0]);
-			printf("%s\n", s_path);
+		/*if (isatty(STDIN_FILENO))*/
+		write(STDOUT_FILENO, "> ", 2);
+		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
+		r = getline(&line, &n, stdin);
 
+		if (r == 0)
+			ctrl_d(r, line);
+		else
+		{
+			line[strlen(line) - 1] = '\0';
+			if (strncmp(line, "exit", 4) == 0)
+			{
+				printf("exiting\n");
+				free(line);
+				return (0);
+			}
+			_getcommand(token_list, line);
 		}
+
+
+		_getenv(path_list, envp);
+		_findcommand(path_list, token_list, envp);
+		for (i = 0; token_list[i]; i++)
+			token_list[i] = NULL;
 	}
+
+	free(line);
+
 	return (0);
 
 }
