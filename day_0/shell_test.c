@@ -124,7 +124,7 @@ int main(int argc, char *argv[], char *envp[])
 			token_list[i] = NULL;
 	}
 
-	
+/*	
 	for (i = 0; token_list[i]; i++)
 		free(token_list[i]);
 	free(token_list[i]);
@@ -135,7 +135,7 @@ int main(int argc, char *argv[], char *envp[])
 	free(path_list[i]);
 	free(path_list);
 	free(token_list);
-
+*/
 	free(line);
 
 	return (0);
