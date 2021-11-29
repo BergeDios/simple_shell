@@ -17,7 +17,6 @@ int _getcommand(char *token_list[], char *line)
 		pos_tok++;
 		token = strtok(NULL, " ");
 	}
-	free(token);
 	return (0);
 }
 
@@ -77,17 +76,16 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 			if (id != 0)
 			{
 				wait(NULL);
-				break;
+				return (0);
 			}
 			else
 			{
 				printf("executing from pid: %d\n", getpid());
 				execve(path, token_list, envp);
-				break;
 			}
 		}
 	}
-	return (0);
+	return (-1);
 }
 
 
@@ -112,6 +110,7 @@ int main(int argc, char *argv[], char *envp[])
 			if (strncmp(line, "exit", 4) == 0)
 			{
 				printf("exiting\n");
+				free(line);
 				return (0);
 			}
 			_getcommand(token_list, line);
@@ -124,6 +123,7 @@ int main(int argc, char *argv[], char *envp[])
 		for (i = 0; token_list[i]; i++)
 			token_list[i] = NULL;
 	}
+
 	
 	for (i = 0; token_list[i]; i++)
 		free(token_list[i]);
