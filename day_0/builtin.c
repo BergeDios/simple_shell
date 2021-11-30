@@ -1,13 +1,15 @@
 #include "shell.h"
+
 /**
  * __exit - exit the functions when "exit" is inputed
  * @line: input to be freed
  * Return: 0 on success
  */
-int __exit(char *line)
+void __exit(char *line)
 {
 	free(line);
-	return (0);
+	printf("exiting\n");
+	exit (0);
 }
 /**
  * _env - prints currenct enviroment

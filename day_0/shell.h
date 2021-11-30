@@ -19,7 +19,7 @@ int _findcommand(char *path_list[], char *commandyarg[], char *envp[]);
 int main(int argc, char *argv[], char *envp[]);
 void ctrl_c(int n);
 void ctrl_d(int n, char *line);
-int __exit(char *line);
+void __exit(char *line);
 int _env(char *envp[]);
 int built_in(char *token_list[], char *line, char *envp[]);
 

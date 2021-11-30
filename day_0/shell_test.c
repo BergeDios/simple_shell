@@ -112,7 +112,16 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 	return (-1);
 }
 
-
+/**
+ * exit - exiting function for the simple shell
+ * line - line to be freed
+ * Return: exits with (0)
+ */
+void exit(char *line)
+{
+	free(line);
+	exit(0);
+}
 
 
 int main(int argc, char *argv[], char *envp[])
@@ -155,9 +164,6 @@ int main(int argc, char *argv[], char *envp[])
 		for (i = 0; token_list[i]; i++)
 			token_list[i] = NULL;
 	}
-
-	free(line);
-
 	return (0);
 
 }
