@@ -108,6 +108,7 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 			}
 		}
 	}
+	write(STDOUT_FILENO, "Error: Executable file not found\n", 33);
 	return (-1);
 }
 
@@ -117,8 +118,8 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 int main(int argc, char *argv[], char *envp[])
 {
 	char *path_list[1024], *token_list[1024], *line;
-	size_t n, r;
-	int i;
+	size_t n;
+	int i, r;
 
 	n = 1024;
 	(void)argc, (void)argv;
@@ -126,12 +127,12 @@ int main(int argc, char *argv[], char *envp[])
 
 	while (1)
 	{
-		/*if (isatty(STDIN_FILENO))*/
-		write(STDOUT_FILENO, "> ", 2);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "> ", 2);
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
 
-		if (r == 0)
+		if (r == -1)
 			ctrl_d(r, line);
 		else
 		{
