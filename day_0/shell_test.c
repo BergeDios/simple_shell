@@ -1,5 +1,28 @@
 #include "shell.h"
 /**
+ * ctrl_c - makes ctrl_c print prompt instead of exit
+ * @n: num from signal
+ * Return: void
+ */
+void ctrl_c(int n)
+{
+	(void)n;
+	write(STDOUT_FILENO, "\n> ", 3);
+}
+/**
+ * ctrl_d - exits program if ctrl_d pressed
+ * @n: num of chars read
+ * @line: line inputed by user
+ * Return: nothing
+ */
+void ctrl_d(int n, char *line)
+{
+	(void)n;
+	free(line);
+	write(STDOUT_FILENO, "\n", 1);
+	exit(0);
+}
+/**
  * _getcommand - gets the line and separates into tokens
  * @token_list: pointer to token list
  * @line: pointer to prompt input
@@ -65,13 +88,13 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 	a = 0, id = 0;
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
 	{
-		strcpy(path, path_list[pos_path]);
-		strcat(path, "/");
-		strcat(path, token_list[0]);
+		_strcpy(path, path_list[pos_path]);
+		_strcat(path, "/");
+		_strcat(path, token_list[0]);
 		a = access(path, (R_OK | X_OK));
 		if (a == 0)
 		{
-			printf("access granted from pid: %d\n", getpid());
+			/*printf("access granted from pid: %d\n", getpid());*/
 			id = fork();
 			if (id != 0)
 			{
@@ -80,11 +103,12 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 			}
 			else
 			{
-				printf("executing from pid: %d\n", getpid());
+				/*printf("executing from pid: %d\n", getpid());*/
 				execve(path, token_list, envp);
 			}
 		}
 	}
+	write(STDOUT_FILENO, "Error: Executable file not found\n", 33);
 	return (-1);
 }
 
@@ -93,21 +117,30 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *line/*, *s_path*/;
+	char *path_list[1024], *token_list[1024], *line;
 	size_t n;
-	int i;
+	int i, r;
 
 	n = 1024;
 	(void)argc, (void)argv;
-	line = NULL, *token_list = NULL, *path_list = NULL/*, s_path = NULL*/;
+	line = NULL, *token_list = NULL, *path_list = NULL;
 
 	while (1)
 	{
-		printf("> ");
-		if ((getline(&line, &n, stdin)) >= 0)
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
+		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
+		r = getline(&line, &n, stdin);
+
+		if (r == -1)
+			ctrl_d(r, line);
+		else
 		{
-			line[strlen(line) - 1] = '\0';
-			if (strncmp(line, "exit", 4) == 0)
+			if (line[0] == '\n')
+				continue;
+
+			line[_strlen(line) - 1] = '\0';
+			if (_strncmp(line, "exit", 4) == 0)
 			{
 				printf("exiting\n");
 				free(line);
@@ -116,26 +149,13 @@ int main(int argc, char *argv[], char *envp[])
 			_getcommand(token_list, line);
 		}
 
-		_getenv(path_list, envp);
 
+		_getenv(path_list, envp);
 		_findcommand(path_list, token_list, envp);
-	
 		for (i = 0; token_list[i]; i++)
 			token_list[i] = NULL;
 	}
 
-/*	
-	for (i = 0; token_list[i]; i++)
-		free(token_list[i]);
-	free(token_list[i]);
-
-
-	for (i = 0; path_list[i]; i++)
-		free(path_list[i]);
-	free(path_list[i]);
-	free(path_list);
-	free(token_list);
-*/
 	free(line);
 
 	return (0);
