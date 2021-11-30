@@ -118,9 +118,7 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 	{
 		a = access(token_list[0], (R_OK | X_OK));
 		if (a == 0)
-		{
-			_execute_command(token_list[0], token_list, envp);
-		}
+			return (_execute_command(token_list[0], token_list, envp));
 	}
 
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
@@ -132,21 +130,9 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 
 		if (a == 0)
 		{
-			_execute_command(path, token_list, envp);
-			break;
+			return (_execute_command(path, token_list, envp));
+			
 		}
-			/*printf("access granted from pid: %d\n", getpid());*/
-			/*id = fork();
-			if (id != 0)
-			{
-				wait(NULL);
-				return (0);
-			}
-			else
-			{*/
-				/*printf("executing from pid: %d\n", getpid());*/
-			/*	execve(path, token_list, envp);
-			}*/
 	}
 	write(STDOUT_FILENO, "Error: Executable file not found\n", 33);
 	return (-1);
