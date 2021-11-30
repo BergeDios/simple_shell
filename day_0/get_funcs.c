@@ -7,7 +7,7 @@
 void ctrl_c(int n)
 {
 	(void)n;
-	write(STDOUT_FILENO, "\n$ ", 3);
+	write(STDOUT_FILENO, "\n> ", 3);
 }
 /**
  * ctrl_d - exits program if ctrl_d pressed

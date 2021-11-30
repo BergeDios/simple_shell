@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "$ ", 2);
+			write(STDOUT_FILENO, "\"(Ô.o)\'> ", 10);
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
 
