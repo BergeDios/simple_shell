@@ -36,7 +36,11 @@ int main(int argc, char *argv[], char *envp[])
 			if (exit_stat == 1)/*exit*/
 				return (0);
 			else if (exit_stat == 0)/*any other built in, returns to prompt*/
+			{
+				for (i = 0; token_list[i]; i++)
+					token_list[i] = NULL;
 				continue;
+			}
 		}
 
 		_getenv(path_list, envp);
