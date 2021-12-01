@@ -7,28 +7,6 @@
  * @envp: array of enviromental variables
  * Return: 0 on success
  */
-
-/*
-int copy_envp(char *envp_copy[], char *envp[])
-{
-	int i;
-
-	printf("going to copy envp\n");
-	for (i = 0; envp[i]; i++)
-	{
-		printf("(envp[%d]: %s\n", i, envp[i]);
-
-
-	}
-
-	printf("\nprintinf envp_copy\n\n");
-	for (i = 0; envp_copy[i]; i++)
-		printf("envp_copy[%d]: %s\n", i, envp_copy[i]);
-
-	return (0);
-}
-*/
-
 int main(int argc, char *argv[], char *envp[])
 {
 	char *path_list[1024], *token_list[1024], *line, curr_directory[PATH_MAX]; /* *envp[1024] */
@@ -45,21 +23,16 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			getcwd(curr_directory, sizeof(curr_directory));
 			write(STDOUT_FILENO, curr_directory, _strlen(curr_directory));
-			write(STDOUT_FILENO, ":\"(Ô.o)\'> ", 11);
+			write(STDOUT_FILENO, ": \"(Ô.o)\'> ", 12);
 		}
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
 
-
-		/** dont mind me
-		copy_envp(envp_copy, envp);
-		*/
-		
 		/* first of all we load the envp */
 		 _getenv(path_list, envp);
 
 		if (r == -1)
-			ctrl_d(r, line);/*makes ctrl d exit"*/
+			ctrl_d(r, line);/*makes ctrl d exit*/
 		else
 		{
 			if (line[0] == '\n')
@@ -69,11 +42,11 @@ int main(int argc, char *argv[], char *envp[])
 			exit_stat = built_in(token_list, envp, line);/* checks if calling built in first */
 			if (exit_stat == 1)/* exit */
 				return (0);
-			else if (exit_stat == -1)/* it didnt find a built in -> searchinv in path_list */
+			else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
 				_findcommand(path_list, token_list, envp);
 
 		}
-		/*
+		/* Checking that envp is not broken
 		printf("\n\nexit_stat: %d\n\nprinting envp\n\n", exit_stat);
 		for (i = 0; envp[i]; i++)
 			printf("envp[i]: %s\n", envp[i]);
