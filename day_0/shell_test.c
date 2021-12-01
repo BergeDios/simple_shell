@@ -7,15 +7,36 @@
  * Return: 0 on success
  */
 
+/*
+int copy_envp(char *envp_copy[], char *envp[])
+{
+	int i;
+
+	printf("going to copy envp\n");
+	for (i = 0; envp[i]; i++)
+	{
+		printf("(envp[%d]: %s\n", i, envp[i]);
+
+
+	}
+
+	printf("\nprintinf envp_copy\n\n");
+	for (i = 0; envp_copy[i]; i++)
+		printf("envp_copy[%d]: %s\n", i, envp_copy[i]);
+
+	return (0);
+}
+*/
+
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *line;
+	char *path_list[1024], *token_list[1024], *line; /* *envp[1024] */
 	size_t n;
-	int i, r/*, exit_stat*/;
+	int i, r, exit_stat/*, pos_free = 0*/;
 
 	n = 1024;
 	(void)argc, (void)argv;
-	line = NULL, *token_list = NULL, *path_list = NULL;
+	line = NULL, *token_list = NULL, *path_list = NULL;/* *envp_copy = NULL; */
 
 	while (1)
 	{
@@ -24,31 +45,46 @@ int main(int argc, char *argv[], char *envp[])
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
 
+
+		/** dont mind me
+		copy_envp(envp_copy, envp);
+		*/
+		
+		/* first of all we load the envp */
+		 _getenv(path_list, envp);
+
 		if (r == -1)
-			ctrl_d(r, line);
+			ctrl_d(r, line);/*makes ctrl d exit"*/
 		else
 		{
 			if (line[0] == '\n')
 				continue;
-
 			line[_strlen(line) - 1] = '\0';
-			/*exit_stat = built_in(token_list, line, envp);
-			if (exit_stat == 1)
+			_getcommand(token_list, line);
+			exit_stat = built_in(token_list, envp, line);/* checks if calling built in first */
+			if (exit_stat == 1)/* exit */
 				return (0);
-			else if (exit_stat == 0)
-				continue;
-			else*/
-				_getcommand(token_list, line);
-		}
+			else if (exit_stat == -1)/* it didnt find a built in -> searchinv in path_list */
+				_findcommand(path_list, token_list, envp);
 
-		_getenv(path_list, envp);
-		_findcommand(path_list, token_list, envp);
+		}
+		/*
+		printf("\n\nexit_stat: %d\n\nprinting envp\n\n", exit_stat);
+		for (i = 0; envp[i]; i++)
+			printf("envp[i]: %s\n", envp[i]);
+		printf("***********************************\n");
+		*/
 		for (i = 0; token_list[i]; i++)
 			token_list[i] = NULL;
 	}
 
 	free(line);
-
+	/*if (new_envp)
+	{
+		for(pos_free = 0; new_envp[pos_free]; pos_free++)
+			free(new_envp[pos_free]);
+		free(new_envp);
+	}*/
 	return (0);
 
 }
