@@ -20,7 +20,6 @@ int _env(char *envp[])
 {
 	int i = 0;
 
-
 	for (; envp[i]; i++)
 	{
 		printf("%s\n", envp[i]);
@@ -127,7 +126,7 @@ int built_in(char *token_list[], char *envp[])
 	int l = (_strlen(token_list[0]));
 
 	(void)envp;
-	if (_strncmp(token_list[0], "exit", l) == 0)
+	if (_strncmp(token_list[0], "exit", 4) == 0)
 	{
 		__exit(token_list[0]);
 		i = 1;

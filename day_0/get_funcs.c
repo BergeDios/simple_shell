@@ -60,7 +60,8 @@ int _getenv(char *path_list[], char *envp[])
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
-		if (strncmp(token, "PATH", l) == 0)
+		printf("\nenvp[i] = %s\n", envp[i]);
+		if (_strncmp(token, "PATH", l) == 0)
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
@@ -73,6 +74,11 @@ int _getenv(char *path_list[], char *envp[])
 		}
 
 	}
+	printf("\n\n\nexiting _getenv\n\n");
+        for (i = 0; envp[i]; i++)
+                printf("%s\n", envp[i]);
+
+
 	if (path_list == NULL)
 		return (-1);
 	return (0);
