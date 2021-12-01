@@ -109,15 +109,15 @@ int _execute_command(char *path, char *token_list[], char *envp[])
 int _findcommand(char *path_list[], char *token_list[], char *envp[])
 {
 	char path[1024];
-	int pos_path = 0, a;
+	int pos_path = 0, acc;
 
-	a = 0;
+	acc = 0;
 
 	/* This part handles if the command is passed with an absolute path */
 	if (token_list[0][0] == '.' || token_list[0][0] == '/')
 	{
-		a = access(token_list[0], (R_OK | X_OK));
-		if (a == 0)
+		acc = access(token_list[0], (R_OK | X_OK));
+		if (acc == 0)
 			return (_execute_command(token_list[0], token_list, envp));
 	}
 
@@ -126,12 +126,11 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 		_strcpy(path, path_list[pos_path]);
 		_strcat(path, "/");
 		_strcat(path, token_list[0]);
-		a = access(path, (R_OK | X_OK));
+		acc = access(path, (R_OK | X_OK));
 
-		if (a == 0)
+		if (acc == 0)
 		{
 			return (_execute_command(path, token_list, envp));
-			
 		}
 	}
 	write(STDOUT_FILENO, "Error: Executable file not found\n", 33);

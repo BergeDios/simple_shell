@@ -11,7 +11,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char *path_list[1024], *token_list[1024], *line;
 	size_t n;
-	int i, r/*, exit_stat*/;
+	int i, r, exit_stat/*, pos_free = 0*/;
 
 	n = 1024;
 	(void)argc, (void)argv;
@@ -25,20 +25,18 @@ int main(int argc, char *argv[], char *envp[])
 		r = getline(&line, &n, stdin);
 
 		if (r == -1)
-			ctrl_d(r, line);
+			ctrl_d(r, line);/*makes ctrl d exit"*/
 		else
 		{
 			if (line[0] == '\n')
 				continue;
-
 			line[_strlen(line) - 1] = '\0';
-			/*exit_stat = built_in(token_list, line, envp);
-			if (exit_stat == 1)
+			_getcommand(token_list, line);
+			exit_stat = built_in(token_list, envp);/*checks if calling built in first*/
+			if (exit_stat == 1)/*exit*/
 				return (0);
-			else if (exit_stat == 0)
+			else if (exit_stat == 0)/*any other built in, returns to prompt*/
 				continue;
-			else*/
-				_getcommand(token_list, line);
 		}
 
 		_getenv(path_list, envp);
@@ -48,7 +46,12 @@ int main(int argc, char *argv[], char *envp[])
 	}
 
 	free(line);
-
+	/*if (new_envp)
+	{
+		for(pos_free = 0; new_envp[pos_free]; pos_free++)
+			free(new_envp[pos_free]);
+		free(new_envp);
+	}*/
 	return (0);
 
 }
