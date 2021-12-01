@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <limits.h>
 /**
  * main - shell like program
  * @argc: argument counter
@@ -30,7 +31,7 @@ int copy_envp(char *envp_copy[], char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *line; /* *envp[1024] */
+	char *path_list[1024], *token_list[1024], *line, curr_directory[PATH_MAX]; /* *envp[1024] */
 	size_t n;
 	int i, r, exit_stat/*, pos_free = 0*/;
 
@@ -41,7 +42,11 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "\"(Ô.o)\'> ", 10);
+		{
+			getcwd(curr_directory, sizeof(curr_directory));
+			write(STDOUT_FILENO, curr_directory, _strlen(curr_directory));
+			write(STDOUT_FILENO, ":\"(Ô.o)\'> ", 11);
+		}
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
 
