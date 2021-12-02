@@ -60,7 +60,7 @@ int main(int argc, char *argv[], char *envp[])
 		for (i = 0; token_list[i]; i++)
 			token_list[i] = NULL;
 	}
-	free(line);
+	__exit(line, envp, envp_copy);
 	return (0);
 
 }

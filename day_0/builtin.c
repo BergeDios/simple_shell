@@ -9,9 +9,12 @@
  */
 void __exit(char *line, char *envp[], char *envp_copy[])
 {
-	free(line);
-	free_strlist(envp);
-	free_strlist(envp_copy);
+	if (line)
+		free(line);
+	if (envp)
+		free_strlist(envp);
+	if (envp_copy)
+		free_strlist(envp_copy);
 	printf("exiting\n");
 	/*
 	if (!n)
@@ -68,23 +71,46 @@ int _setenv(char *name, char *value, char *envp[])
 		;
 	if (index == pos_env)/*no match path then add new at the end*/
 	{
+		printf("no match path\n");
 		pos_env++;
+		printf("going for malloc\n");
 		new_envp = malloc(sizeof(char *) * pos_env);
-		if (!new_envp)
+		if (new_envp == NULL)
 		{
+			printf("going to free concat\n");
 			free(concat);
 			return (-1);
 		}
+		printf("did the malloc\n");
 		for (pos_new = 0; envp[pos_new]; pos_new++)
 		{
-			new_envp[pos_new] = envp[pos_new];
+			printf("going to copy %d\n", pos_new);
+			new_envp[pos_new] = malloc(sizeof(char) * _strlen(envp[pos_new]));
+			if (new_envp[pos_new] == NULL)
+			{
+				free(concat);
+				free_strlist(new_envp);
+			}
+			_strcpy(new_envp[pos_new], envp[pos_new]);
 		}
-		new_envp[pos_new] = concat;
+		printf("did the for\n");
+
+		new_envp[pos_new] = malloc(sizeof(char) * _strlen(concat));
+		printf("doing the malloc\n");
+		if (new_envp[pos_new] == NULL)
+		{
+			free(concat);
+			free_strlist(new_envp);
+		}
+		printf("going to copy hu go\n");
+		_strcpy(new_envp[pos_new], concat);
+		printf("copied hu go\n");
 		pos_new++;
-		new_envp[pos_new] = NULL;
+		/*new_envp[pos_new] = NULL;*/
 	}
 	else/*there was a match, its an overwrite*/
 	{
+		printf("there was a match\n");
 		new_envp = malloc(sizeof(char *) * pos_env);
 		if (new_envp == NULL)
 		{
@@ -95,10 +121,22 @@ int _setenv(char *name, char *value, char *envp[])
 		{
 			if (pos_new == index)
 			{
-				new_envp[pos_new] = concat;
+				new_envp[pos_new] = malloc(sizeof(char) * _strlen(concat));
+				if (new_envp[pos_new] == NULL)
+				{
+					free(concat);
+					free_strlist(new_envp);
+				}
+				_strcpy(new_envp[pos_new], concat);
 				continue;
 			}
-			new_envp[pos_new] = envp[pos_new];
+			new_envp[pos_new] = malloc(sizeof(char) * _strlen(envp[pos_new]));
+			if (new_envp[pos_new] == NULL)
+			{
+				free(concat);
+				free_strlist(new_envp);
+			}
+			_strcpy(new_envp[pos_new], envp[pos_new]);
 		}
 		new_envp[pos_new] = NULL;
 	}
