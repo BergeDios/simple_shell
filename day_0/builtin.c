@@ -34,26 +34,31 @@ int _env(char *envp[])
 }
 /**
  * _setenv - creates a new env variables or overwites an existing one
- * @newvar: inputed line
+ * @name: name or token_list[1]
+ * @value: value or token_lsit [2]
  * @envp: list of env variables
  * Return: 0 on success -1 otherwise
  */
 
-int _setenv(char *newvar, char *envp[])
+int _setenv(char *name, char *value, char *envp[])
 {
 	int index = 0, pos_new = 0, pos_env = 0;
-	char *name, *env_var_copy, **new_envp;
+	char *concat, **new_envp;
 
-	if (newvar == NULL)
+	concat = NULL;
+	if (!value)
 	{
 		write(STDOUT_FILENO, "Too few arguments\n", 18);
 		return (-1);
 	}
-	name = strtok(newvar, "=");
-	env_var_copy = malloc(sizeof(char) * (_strlen(newvar)));
-	if (env_var_copy == NULL)
+
+	concat = malloc((_strlen(name) + _strlen(value) + 1));
+	if (concat == NULL)
 		return (-1);
-	_strcpy(env_var_copy, newvar);
+	_strcpy(concat, name);
+	_strcat(concat, "=");
+	_strcat(concat, value);
+	printf("concat: %s\n", concat);
 	index = find_env(envp, name);
 	printf("**FIRST SET OF ENV**\n");
 	for (pos_env = 0; envp[pos_env]; pos_env++)
@@ -70,7 +75,7 @@ int _setenv(char *newvar, char *envp[])
 		{
 			new_envp[pos_new] = envp[pos_new];
 		}
-		new_envp[pos_new] = newvar;
+		new_envp[pos_new] = concat;
 		pos_new++;
 		new_envp[pos_new] = NULL;
 	}
@@ -83,20 +88,29 @@ int _setenv(char *newvar, char *envp[])
 		{
 			if (pos_new == index)
 			{
-				new_envp[pos_new] = newvar;
+				new_envp[pos_new] = concat;
 				continue;
 			}
 			new_envp[pos_new] = envp[pos_new];
 		}
-		pos_new++;
 		new_envp[pos_new] = NULL;
 	}
-	pos_new = 0;
 	printf("**AFTER SETENV**\n");
 	for (pos_new = 0; new_envp[pos_new]; pos_new++)
 	{
 		printf("%s\n", new_envp[pos_new]);
 	}
+	envp = malloc(sizeof(char *) * pos_env);
+	if (!envp)
+		return (-1);
+	for (pos_new = 0; new_envp[pos_new]; pos_new++)
+	{
+		envp[pos_new] = malloc(_strlen(new_envp[pos_new]));
+		_strcpy(envp[pos_new], new_envp[pos_new]);
+		/*free(new_envp[pos_new]);*/
+	}
+	/*envp[pos_new] = NULL;*/
+	/*free(new_envp);*/
 	return (0);
 }
 /**
@@ -108,12 +122,10 @@ int _setenv(char *newvar, char *envp[])
 int find_env(char *envp[], char *name)
 {
 	int i = 0;
-	char *token;
 
 	while (envp[i])
 	{
-		token = strtok(envp[i], "=");
-		if (_strcmp(token, name) == 0) /* if matches entirely, break return i*/
+		if (_strncmp(envp[i], name, (_strlen(name))) == 0) /* if matches entirely, break return i*/
 			break;
 		i++;
 	}
@@ -149,7 +161,7 @@ int built_in(char *token_list[], char *envp[], char *line)
 	}
 	else if (_strncmp(token_list[0], "setenv", l) == 0)
 	{
-		_setenv(token_list[1], envp);
+		_setenv(token_list[1], token_list[2], envp);
 		i = 0;
 	}
 	/*else if (_strncmp(line, "unsetenv", l) == 0)

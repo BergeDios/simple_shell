@@ -46,11 +46,11 @@ int _getcommand(char *token_list[], char *line)
 /**
  * _getenv - gets path dirs and puts it into array
  * @path_list: array to be stored at
- * @envp: array of enviromental variables
+ * @envp_copy: array of enviromental variables
  * Return: 0 if success
  */
 
-int _getenv(char *path_list[], char *envp[])
+int _getenv(char *path_list[], char *envp_copy[])
 {
 
 	/* This is currently breaking the envp variable and we cant use it for _env */
@@ -59,9 +59,9 @@ int _getenv(char *path_list[], char *envp[])
 	size_t l = 4;
 
 	token = NULL;
-	for (i = 0; envp[i]; i++)
+	for (i = 0; envp_copy[i]; i++)
 	{
-		token = strtok(envp[i], "=");
+		token = strtok(envp_copy[i], "=");
 		if (_strncmp(token, "PATH", l) == 0)
 		{
 			token = strtok(NULL, "=");
