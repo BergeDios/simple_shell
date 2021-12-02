@@ -21,7 +21,7 @@ int _env(char *envp[])
 	int i = 0;
 
 
-	for (; envp[i]; i++)
+	for (; envp[i] != NULL; i++)
 	{
 		printf("%s\n", envp[i]);
 	}
@@ -29,7 +29,7 @@ int _env(char *envp[])
 }
 /**
  * _setenv - creates a new env variables or overwites an existing one
- * @line: inputed line
+ * @newvar: inputed line
  * @envp: list of env variables
  * Return: 0 on success -1 otherwise
  */
