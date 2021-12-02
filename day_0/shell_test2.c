@@ -24,6 +24,9 @@ int main(int argc, char *argv[], char *envp[])
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
 
+		/* first of all we load the envp */
+		 _getenv(path_list, envp);
+
 		if (r == -1)
 			ctrl_d(r, line);/*makes ctrl d exit"*/
 		else
@@ -32,19 +35,17 @@ int main(int argc, char *argv[], char *envp[])
 				continue;
 			line[_strlen(line) - 1] = '\0';
 			_getcommand(token_list, line);
-			exit_stat = built_in(token_list, envp);/*checks if calling built in first*/
-			if (exit_stat == 1)/*exit*/
+			exit_stat = built_in(token_list, envp);/* checks if calling built in first */
+			if (exit_stat == 1)/* exit */
 				return (0);
-			else if (exit_stat == 0)/*any other built in, returns to prompt*/
-			{
-				for (i = 0; token_list[i]; i++)
-					token_list[i] = NULL;
-				continue;
-			}
-		}
+			else if (exit_stat == -1)/* it didnt find a built in -> searchinv in path_list */
+				_findcommand(path_list, token_list, envp);
 
-		_getenv(path_list, envp);
-		_findcommand(path_list, token_list, envp);
+		}
+		printf("\n\nexit_stat: %d\n\nprinting envp\n\n", exit_stat);
+		for (i = 0; envp[i]; i++)
+			printf("envp[i]: %s\n", envp[i]);
+		printf("***********************************\n");
 		for (i = 0; token_list[i]; i++)
 			token_list[i] = NULL;
 	}

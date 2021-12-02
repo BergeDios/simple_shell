@@ -9,7 +9,13 @@ void __exit(char *line)
 {
 	free(line);
 	printf("exiting\n");
-	exit (0);
+	/*
+	if (!n)
+		exit(0);
+	else
+		exit(n);
+		*/
+	exit(0);
 }
 /**
  * _env - prints currenct enviroment
@@ -20,8 +26,7 @@ int _env(char *envp[])
 {
 	int i = 0;
 
-
-	for (; envp[i] != NULL; i++)
+	for (; envp[i]; i++)
 	{
 		printf("%s\n", envp[i]);
 	}
@@ -121,15 +126,15 @@ int find_env(char *envp[], char *name)
  * @envp: array of pointers to env variables
  * Return: 0 succes or -1
  */
-int built_in(char *token_list[], char *envp[])
+int built_in(char *token_list[], char *envp[], char *line)
 {
 	int i = -1;
 	int l = (_strlen(token_list[0]));
 
 	(void)envp;
-	if (_strncmp(token_list[0], "exit", l) == 0)
+	if (_strncmp(token_list[0], "exit", 4) == 0)
 	{
-		__exit(token_list[0]);
+		__exit(line);
 		i = 1;
 	}
 	/*else if (_strncmp(token_list[0], "cd", l) == 0)

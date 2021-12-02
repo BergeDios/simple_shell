@@ -52,6 +52,8 @@ int _getcommand(char *token_list[], char *line)
 
 int _getenv(char *path_list[], char *envp[])
 {
+
+	/* This is currently breaking the envp variable and we cant use it for _env */
 	char *token;
 	int i = 0, pos_path = 0;
 	size_t l = 4;
@@ -60,7 +62,7 @@ int _getenv(char *path_list[], char *envp[])
 	for (i = 0; envp[i]; i++)
 	{
 		token = strtok(envp[i], "=");
-		if (strncmp(token, "PATH", l) == 0)
+		if (_strncmp(token, "PATH", l) == 0)
 		{
 			token = strtok(NULL, "=");
 			token = strtok(token, ":");
@@ -73,6 +75,7 @@ int _getenv(char *path_list[], char *envp[])
 		}
 
 	}
+
 	if (path_list == NULL)
 		return (-1);
 	return (0);

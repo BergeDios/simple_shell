@@ -28,7 +28,7 @@ int main(int argc, char *argv[], char *envp[]);
 /*BUILT IN FUNCS*/
 void __exit(char *line);
 int _env(char *envp[]);
-int built_in(char *token_list[], char *envp[]);
+int built_in(char *token_list[], char *envp[], char *line);
 int find_env(char *envp[], char *name);
 int _setenv(char *line, char *envp[]);
 	
