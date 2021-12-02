@@ -14,12 +14,14 @@ void ctrl_c(int n)
  * ctrl_d - exits program if ctrl_d pressed
  * @n: num of chars read
  * @line: line inputed by user
+ * @envp: env var
+ * @envp_copy: lo dice
  * Return: nothing
  */
-void ctrl_d(int n, char *line)
+void ctrl_d(int n, char *line, char *envp[], char *envp_copy[])
 {
 	(void)n;
-	free(line);
+	__exit(line, envp, envp_copy);
 	write(STDOUT_FILENO, "\n", 1);
 	exit(0);
 }

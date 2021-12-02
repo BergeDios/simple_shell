@@ -3,11 +3,15 @@
 /**
  * __exit - exit the functions when "exit" is inputed
  * @line: input to be freed
+ * @envp: array env
+ * @envp_copy: lo deice el nombre
  * Return: 0 on success
  */
-void __exit(char *line)
+void __exit(char *line, char *envp[], char *envp_copy[])
 {
 	free(line);
+	free_strlist(envp);
+	free_strlist(envp_copy);
 	printf("exiting\n");
 	/*
 	if (!n)
@@ -60,17 +64,17 @@ int _setenv(char *name, char *value, char *envp[])
 	_strcat(concat, value);
 	printf("concat: %s\n", concat);
 	index = find_env(envp, name);
-	printf("**FIRST SET OF ENV**\n");
 	for (pos_env = 0; envp[pos_env]; pos_env++)
-	{
-		printf("%s\n", envp[pos_env]);
-	}
+		;
 	if (index == pos_env)/*no match path then add new at the end*/
 	{
 		pos_env++;
 		new_envp = malloc(sizeof(char *) * pos_env);
 		if (!new_envp)
+		{
+			free(concat);
 			return (-1);
+		}
 		for (pos_new = 0; envp[pos_new]; pos_new++)
 		{
 			new_envp[pos_new] = envp[pos_new];
@@ -83,7 +87,10 @@ int _setenv(char *name, char *value, char *envp[])
 	{
 		new_envp = malloc(sizeof(char *) * pos_env);
 		if (new_envp == NULL)
+		{
+			free(concat);
 			return (-1);
+		}
 		for (pos_new = 0; envp[pos_new]; pos_new++)
 		{
 			if (pos_new == index)
@@ -102,15 +109,18 @@ int _setenv(char *name, char *value, char *envp[])
 	}
 	envp = malloc(sizeof(char *) * pos_env);
 	if (!envp)
+	{
+		free_strlist(new_envp);
+		free(concat);
 		return (-1);
+	}
 	for (pos_new = 0; new_envp[pos_new]; pos_new++)
 	{
 		envp[pos_new] = malloc(_strlen(new_envp[pos_new]));
 		_strcpy(envp[pos_new], new_envp[pos_new]);
-		/*free(new_envp[pos_new]);*/
 	}
-	/*envp[pos_new] = NULL;*/
-	/*free(new_envp);*/
+	free_strlist(new_envp);
+	free(concat);
 	return (0);
 }
 /**
@@ -157,9 +167,10 @@ int _cd(char *token_list[])
  * built_in - checks if command call is to a built in function
  * @token_list: to bring token_list[0]
  * @envp: array of pointers to env variables
+ * @envp_copy: lo dice el nombre
  * Return: 0 succes or -1
  */
-int built_in(char *token_list[], char *envp[], char *line)
+int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 {
 	int i = -1;
 	int l = (_strlen(token_list[0]));
@@ -167,7 +178,7 @@ int built_in(char *token_list[], char *envp[], char *line)
 	(void)envp;
 	if (_strncmp(token_list[0], "exit", 4) == 0)
 	{
-		__exit(line);
+		__exit(line, envp, envp_copy);
 		i = 1;
 	}
 	else if (_strncmp(token_list[0], "cd", l) == 0)
