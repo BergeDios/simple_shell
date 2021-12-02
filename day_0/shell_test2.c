@@ -44,7 +44,7 @@ int main(int argc, char *argv[], char *envp[])
 				continue;
 			line[_strlen(line) - 1] = '\0';
 			_getcommand(token_list, line);
-			exit_stat = built_in(token_list, envp, line, envp_copy);/* checks if calling built in first */
+			exit_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
 			if (exit_stat == 1)/* exit */
 				return (0);
 			else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
