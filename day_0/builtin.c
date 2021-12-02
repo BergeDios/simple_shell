@@ -131,6 +131,27 @@ int find_env(char *envp[], char *name)
 	}
 	return (i);
 }
+/**
+ * _cd - change directory based on the given path
+ * @path: next working directory
+ * Return: 0 on succes -1 on failure
+ */
+int _cd(char *token_list[])
+{
+	if (token_list[2])
+	{
+		printf("To many arguments\n");
+		return (-1);
+	}
+	if (chdir(token_list[1]) == 0)
+		return (0);
+	else
+	{
+		printf("Can't access %s\n", token_list[1]);
+		return (-1);
+	}
+}
+
 
 /**
  * built_in - checks if command call is to a built in function
@@ -149,11 +170,11 @@ int built_in(char *token_list[], char *envp[], char *line)
 		__exit(line);
 		i = 1;
 	}
-	/*else if (_strncmp(token_list[0], "cd", l) == 0)
+	else if (_strncmp(token_list[0], "cd", l) == 0)
 	{
-		_cd(char *dest, char *src);
+		_cd(token_list);
 		i = 0;
-	}*/
+	}
 	else if (_strncmp(token_list[0], "env", l) == 0)
 	{
 		_env(envp);
