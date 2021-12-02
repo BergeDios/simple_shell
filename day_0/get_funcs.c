@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <errno.h>
 /**
  * ctrl_c - makes ctrl_c print prompt instead of exit
  * @n: num from signal
@@ -92,14 +93,14 @@ int _execute_command(char *path, char *token_list[], char *envp[])
 		wait(&status);
 		if (status == 0)
 			return (0);
-		return (-1);
+	/*	return (-1);*/
 	}
 	else
-	{
 		execve(path, token_list, envp);
-	}
 
-	return (0);
+	printf("error\n");
+        printf("error no: %d\n", EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
 /**
