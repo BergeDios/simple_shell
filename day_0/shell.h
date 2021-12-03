@@ -27,7 +27,7 @@ int free_strlist(char *list[]);
 int main(int argc, char *argv[], char *envp[]);
 
 /*BUILT IN FUNCS*/
-void __exit(char *line, char *envp[], char *envp_copy[]);
+void __exit(int n, char *line, char *envp[], char *envp_copy[]);
 int _env(char *envp[]);
 int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line);
 int find_env(char *envp[], char *name);

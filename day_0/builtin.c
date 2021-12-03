@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <errno.h>
 
 /**
  * __exit - exit the functions when "exit" is inputed
@@ -7,23 +8,21 @@
  * @envp_copy: lo deice el nombre
  * Return: 0 on success
  */
-void __exit(char *line, char *envp[], char *envp_copy[])
+void __exit(int n, char *line, char *envp[], char *envp_copy[])
 {
 	(void)envp;
 
 	if (line)
 		free(line);
-	/*if (envp)
+	/*here is the braking point
+	 if (envp)
 		free_strlist(envp);*/
 	if (envp_copy)
 		free_strlist(envp_copy);
 	printf("exiting\n");
-	/*
-	if (!n)
-		exit(0);
-	else
+	
+	if (n)
 		exit(n);
-		*/
 	exit(0);
 }
 /**
@@ -197,7 +196,7 @@ int _cd(char *token_list[])
 		return (0);
 	else
 	{
-		printf("Can't access %s\n", token_list[1]);
+		printf("errno: %d Can't access %s\n", errno, token_list[1]);
 		return (-1);
 	}
 }
@@ -218,7 +217,7 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 	(void)envp;
 	if (_strncmp(token_list[0], "exit", 4) == 0)
 	{
-		__exit(line, envp, envp_copy);
+		__exit(3, line, envp, envp_copy);
 		i = 1;
 	}
 	else if (_strncmp(token_list[0], "cd", l) == 0)

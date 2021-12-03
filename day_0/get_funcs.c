@@ -21,7 +21,7 @@ void ctrl_c(int n)
 void ctrl_d(int n, char *line, char *envp[], char *envp_copy[])
 {
 	(void)n;
-	__exit(line, envp, envp_copy);
+	__exit(2, line, envp, envp_copy);
 	write(STDOUT_FILENO, "\n", 1);
 	exit(0);
 }
@@ -95,14 +95,11 @@ int _execute_command(char *path, char *token_list[], char *envp[])
 		wait(&status);
 		if (status == 0)
 			return (0);
-	/*	return (-1);*/
 	}
 	else
 		execve(path, token_list, envp);
 
-	printf("error\n");
-        printf("error no: %d\n", EXIT_FAILURE);
-	return (EXIT_FAILURE);
+	return (-1);
 }
 
 /**
