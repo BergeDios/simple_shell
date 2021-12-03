@@ -9,13 +9,17 @@
  */
 int main(int argc, char *argv[], char *envp[])
 {
-	char *path_list[1024], *token_list[1024], *line, curr_directory[PATH_MAX], *envp_copy[1024];
+	char *path_list[1024], *token_list[1024], *envp_copy[1024];
+	char curr_directory[PATH_MAX], *line;
 	size_t n;
-	int r, exit_stat, pos_cpy = 0;
+	int r, exit_stat, pos_cpy;
+	FILE *log_fd;
 
 	n = 1024;
 	(void)argc, (void)argv;
 	line = NULL, *token_list = NULL, *path_list = NULL, *envp_copy = NULL;
+
+	log_fd = open(
 	/*copy of envp to tokenize*/
 	for (pos_cpy = 0; envp[pos_cpy]; pos_cpy++)
 	{
