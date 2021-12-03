@@ -11,7 +11,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char *path_list[1024], *token_list[1024], *line, curr_directory[PATH_MAX], *envp_copy[1024];
 	size_t n;
-	int i, r, exit_stat, pos_cpy = 0;
+	int r, exit_stat, pos_cpy = 0;
 
 	n = 1024;
 	(void)argc, (void)argv;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[], char *envp[])
 		r = getline(&line, &n, stdin);
 
 		if (r == -1)
-			ctrl_d(r, line, envp, envp_copy);/*makes ctrl d exit*/
+			ctrl_d(r, line, token_list, envp_copy);/*makes ctrl d exit*/
 		else
 		{
 			if (line[0] == '\n')
@@ -49,7 +49,6 @@ int main(int argc, char *argv[], char *envp[])
 				return (0);
 			else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
 				_findcommand(path_list, token_list, envp);
-
 		}
 		/* Checking that envp is not broken
 		printf("\n\nexit_stat: %d\n\nprinting envp\n\n", exit_stat);
@@ -57,10 +56,7 @@ int main(int argc, char *argv[], char *envp[])
 			printf("envp[i]: %s\n", envp[i]);
 		printf("***********************************\n");
 		*/
-		for (i = 0; token_list[i]; i++)
-			token_list[i] = NULL;
 	}
-	__exit(0, line, envp, envp_copy);
+	__exit(0, line, token_list, envp_copy);
 	return (0);
-
 }

@@ -60,5 +60,4 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	__exit(0, line, token_list, envp_copy);
 	return (0);
-
 }

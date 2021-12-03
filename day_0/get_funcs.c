@@ -39,11 +39,13 @@ int _getcommand(char *token_list[], char *line)
 	token = strtok(line, " ");
 	while (token != NULL)
 	{
-		token_list[pos_tok] = malloc((_strlen(token) + 1));
+		token_list[pos_tok] = malloc(sizeof(char) * (_strlen(token) + 1));
 		_strcpy(token_list[pos_tok], token);
 		pos_tok++;
 		token = strtok(NULL, " ");
 	}
+	token_list[pos_tok] = NULL;
+	free(token);
 	return (0);
 }
 
@@ -95,7 +97,10 @@ int _execute_command(char *path, char *token_list[], char *envp[])
 	{
 		wait(&status);
 		if (status == 0)
-			return (0);
+		{	
+		/*free_strlist(token_list);*/
+		return (0);
+		}
 	}
 	else
 		execve(path, token_list, envp);

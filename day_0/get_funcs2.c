@@ -8,7 +8,7 @@ int free_strlist(char *list[])
 {
 	int pos;
 
-	if (!list)
+	if (!*list)
 		return (-1);
 	for (pos = 0; list[pos]; pos++)
 		free(list[pos]);

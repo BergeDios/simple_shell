@@ -1,6 +1,5 @@
 #include "shell.h"
 #include <errno.h>
-
 /**
  * __exit - exit the functions when "exit" is inputed
  * @line: input to be freed
@@ -46,7 +45,6 @@ int _env(char *envp[])
  * @envp: list of env variables
  * Return: 0 on success -1 otherwise
  */
-
 int _setenv(char *name, char *value, char *envp[])
 {
 	int index = 0, pos_new = 0, pos_env = 0;
@@ -199,8 +197,6 @@ int _cd(char *token_list[])
 		return (-1);
 	}
 }
-
-
 /**
  * built_in - checks if command call is to a built in function
  * @token_list: to bring token_list[0]
@@ -239,5 +235,6 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		_unsetenv(envp);
 		i = 0;
 	}*/
+	free_strlist(token_list);
 	return (i);
 }
