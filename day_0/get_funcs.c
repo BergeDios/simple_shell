@@ -14,14 +14,14 @@ void ctrl_c(int n)
  * ctrl_d - exits program if ctrl_d pressed
  * @n: num of chars read
  * @line: line inputed by user
- * @envp: env var
+ * @token_list: env var
  * @envp_copy: lo dice
  * Return: nothing
  */
-void ctrl_d(int n, char *line, char *envp[], char *envp_copy[])
+void ctrl_d(int n, char *line, char *token_list[], char *envp_copy[])
 {
 	(void)n;
-	__exit(2, line, envp, envp_copy);
+	__exit(2, line, token_list, envp_copy);
 	write(STDOUT_FILENO, "\n", 1);
 	exit(0);
 }
@@ -39,7 +39,8 @@ int _getcommand(char *token_list[], char *line)
 	token = strtok(line, " ");
 	while (token != NULL)
 	{
-		token_list[pos_tok] = token;
+		token_list[pos_tok] = malloc((_strlen(token) + 1));
+		_strcpy(token_list[pos_tok], token);
 		pos_tok++;
 		token = strtok(NULL, " ");
 	}

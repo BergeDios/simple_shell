@@ -21,13 +21,13 @@ int _getenv(char *path_list[], char *envp_copy[]);
 int _findcommand(char *path_list[], char *commandyarg[], char *envp[]);
 int _execute_command(char *path, char *token_list[], char *envp[]);
 void ctrl_c(int n);
-void ctrl_d(int n, char *line, char *envp[], char *envp_copy[]);
+void ctrl_d(int n, char *line, char *token_list[], char *envp_copy[]);
 /*GET FUNCS 2*/
 int free_strlist(char *list[]);
 int main(int argc, char *argv[], char *envp[]);
 
 /*BUILT IN FUNCS*/
-void __exit(int n, char *line, char *envp[], char *envp_copy[]);
+void __exit(int n, char *line, char *token_list[], char *envp_copy[]);
 int _env(char *envp[]);
 int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line);
 int find_env(char *envp[], char *name);

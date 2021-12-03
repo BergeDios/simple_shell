@@ -4,23 +4,22 @@
 /**
  * __exit - exit the functions when "exit" is inputed
  * @line: input to be freed
- * @envp: array env
+ * @token_list: array env
  * @envp_copy: lo deice el nombre
  * Return: 0 on success
  */
-void __exit(int n, char *line, char *envp[], char *envp_copy[])
+void __exit(int n, char *line, char *token_list[], char *envp_copy[])
 {
-	(void)envp;
 
 	if (line)
 		free(line);
-	/*here is the braking point
-	 if (envp)
-		free_strlist(envp);*/
+	/*here is the braking point*/
+	if (token_list)
+		free_strlist(token_list);
 	if (envp_copy)
 		free_strlist(envp_copy);
 	printf("exiting\n");
-	
+
 	if (n)
 		exit(n);
 	exit(0);
@@ -217,7 +216,7 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 	(void)envp;
 	if (_strncmp(token_list[0], "exit", 4) == 0)
 	{
-		__exit(3, line, envp, envp_copy);
+		__exit(3, line, token_list, envp_copy);
 		i = 1;
 	}
 	else if (_strncmp(token_list[0], "cd", l) == 0)
