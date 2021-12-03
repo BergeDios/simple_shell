@@ -10,16 +10,18 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	char *path_list[1024], *token_list[1024], *envp_copy[1024];
-	char curr_directory[PATH_MAX], *line;
+	char *line, curr_directory[PATH_MAX];
 	size_t n;
-	int r, exit_stat, pos_cpy;
-	FILE *log_fd;
+	int r, exit_stat, pos_cpy, log_fd;
 
 	n = 1024;
 	(void)argc, (void)argv;
 	line = NULL, *token_list = NULL, *path_list = NULL, *envp_copy = NULL;
 
-	log_fd = open(
+	log_fd = open("./log", O_CREAT | O_APPEND | O_RDWR, 0666);
+	if (log_fd < 0)
+		return (-1);
+
 	/*copy of envp to tokenize*/
 	for (pos_cpy = 0; envp[pos_cpy]; pos_cpy++)
 	{
@@ -46,6 +48,7 @@ int main(int argc, char *argv[], char *envp[])
 		{*/
 		if (line[0] == '\n')
 			continue;
+		write(log_fd, line, _strlen(line));
 		line[_strlen(line) - 1] = '\0';
 		_getcommand(token_list, line);
 		if (r == -1)

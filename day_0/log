@@ -1,0 +1,8 @@
+cd ..
+cd day_0
+cd ..
+cd ./day_0
+exit
+ls -1
+cat log
+exit

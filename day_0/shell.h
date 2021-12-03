@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 /*UTILITY FUNCS*/
 char *_strcat(char *dest, char *src);
