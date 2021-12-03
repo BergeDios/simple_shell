@@ -45,7 +45,6 @@ int _getcommand(char *token_list[], char *line)
 		token = strtok(NULL, " ");
 	}
 	token_list[pos_tok] = NULL;
-	free(token);
 	return (0);
 }
 
@@ -129,7 +128,6 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 		if (acc == 0)
 			return (_execute_command(token_list[0], token_list, envp));
 	}
-
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
 	{
 		_strcpy(path, path_list[pos_path]);

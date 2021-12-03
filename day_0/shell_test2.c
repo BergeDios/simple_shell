@@ -35,23 +35,24 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		signal(SIGINT, ctrl_c);/*should make ctrl-c not exit*/
 		r = getline(&line, &n, stdin);
-
+/*
 		if (r == -1)
-			ctrl_d(r, line, token_list, envp_copy);/*makes ctrl d exit*/
+			ctrl_d(r, line, token_list, envp_copy);makes ctrl d exit
 		else
-		{
-			if (line[0] == '\n')
-				continue;
-			line[_strlen(line) - 1] = '\0';
-			_getcommand(token_list, line);
-			exit_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
-			if (exit_stat == 1)/* exit */
-				return (0);
-			else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
-				_findcommand(path_list, token_list, envp);
-
-		}
-		/* Checking that envp is not broken
+		{*/
+		if (line[0] == '\n')
+			continue;
+		line[_strlen(line) - 1] = '\0';
+		_getcommand(token_list, line);
+		if (r == -1)
+			 ctrl_d(r, line, token_list, envp_copy);/*makes ctrl d exit*/
+		exit_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
+		if (exit_stat == 1)/* exit */
+			return (0);
+		else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
+			_findcommand(path_list, token_list, envp);
+		/*}
+		 Checking that envp is not broken
 		printf("\n\nexit_stat: %d\n\nprinting envp\n\n", exit_stat);
 		for (i = 0; envp[i]; i++)
 			printf("envp[i]: %s\n", envp[i]);
