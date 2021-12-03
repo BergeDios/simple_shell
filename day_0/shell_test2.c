@@ -58,6 +58,7 @@ int main(int argc, char *argv[], char *envp[])
 			printf("envp[i]: %s\n", envp[i]);
 		printf("***********************************\n");
 		*/
+		free_strlist(token_list);
 	}
 	__exit(0, line, token_list, envp_copy);
 	return (0);

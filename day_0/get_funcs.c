@@ -140,6 +140,6 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 			return (_execute_command(path, token_list, envp));
 		}
 	}
-	write(STDOUT_FILENO, "Error: Executable file not found\n", 33);
+	perror(path);
 	return (-1);
 }
