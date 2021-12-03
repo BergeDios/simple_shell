@@ -60,7 +60,7 @@ int _setenv(char *name, char *value, char *envp[])
 		return (-1);
 	}
 
-	concat = malloc((_strlen(name) + _strlen(value) + 1));
+	concat = malloc((_strlen(name) + _strlen(value) + 2));
 	if (concat == NULL)
 		return (-1);
 	_strcpy(concat, name);
@@ -86,7 +86,7 @@ int _setenv(char *name, char *value, char *envp[])
 		for (pos_new = 0; envp[pos_new]; pos_new++)
 		{
 			printf("going to copy %d\n", pos_new);
-			new_envp[pos_new] = malloc(sizeof(char) * _strlen(envp[pos_new]));
+			new_envp[pos_new] = malloc(sizeof(char) * _strlen(envp[pos_new]) + 1);
 			if (new_envp[pos_new] == NULL)
 			{
 				free(concat);
@@ -96,7 +96,7 @@ int _setenv(char *name, char *value, char *envp[])
 		}
 		printf("did the for\n");
 
-		new_envp[pos_new] = malloc(sizeof(char) * _strlen(concat));
+		new_envp[pos_new] = malloc(sizeof(char) * _strlen(concat) + 1);
 		printf("doing the malloc\n");
 		if (new_envp[pos_new] == NULL)
 		{
@@ -122,7 +122,7 @@ int _setenv(char *name, char *value, char *envp[])
 		{
 			if (pos_new == index)
 			{
-				new_envp[pos_new] = malloc(sizeof(char) * _strlen(concat));
+				new_envp[pos_new] = malloc(sizeof(char) * _strlen(concat) + 1);
 				if (new_envp[pos_new] == NULL)
 				{
 					free(concat);
@@ -230,12 +230,12 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		_env(envp);
 		i = 0;
 	}
-	/*else if (_strncmp(token_list[0], "setenv", l) == 0)
+	else if (_strncmp(token_list[0], "setenv", l) == 0)
 	{
 		_setenv(token_list[1], token_list[2], envp);
 		i = 0;
 	}
-	*//*else if (_strncmp(line, "unsetenv", l) == 0)
+	/*else if (_strncmp(line, "unsetenv", l) == 0)
 	{
 		_unsetenv(envp);
 		i = 0;
