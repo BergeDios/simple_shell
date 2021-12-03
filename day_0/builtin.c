@@ -9,10 +9,12 @@
  */
 void __exit(char *line, char *envp[], char *envp_copy[])
 {
+	(void)envp;
+
 	if (line)
 		free(line);
-	if (envp)
-		free_strlist(envp);
+	/*if (envp)
+		free_strlist(envp);*/
 	if (envp_copy)
 		free_strlist(envp_copy);
 	printf("exiting\n");
@@ -229,12 +231,12 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		_env(envp);
 		i = 0;
 	}
-	else if (_strncmp(token_list[0], "setenv", l) == 0)
+	/*else if (_strncmp(token_list[0], "setenv", l) == 0)
 	{
 		_setenv(token_list[1], token_list[2], envp);
 		i = 0;
 	}
-	/*else if (_strncmp(line, "unsetenv", l) == 0)
+	*//*else if (_strncmp(line, "unsetenv", l) == 0)
 	{
 		_unsetenv(envp);
 		i = 0;
