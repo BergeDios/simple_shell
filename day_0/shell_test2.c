@@ -44,27 +44,13 @@ int main(int argc, char *argv[], char *envp[])
 			continue;
 		line[_strlen(line) - 1] = '\0';
 		_getcommand(token_list, line);
-		printf("token_list in main after getcommand\n");
-		for (pos_cpy = 0; token_list[pos_cpy]; pos_cpy++)
-			printf("token_list[%d] is %s\n", pos_cpy, token_list[pos_cpy]);
 		if (r == -1)
 			 ctrl_d(r, line, token_list, envp_copy);/*makes ctrl d exit*/
-		printf("token_list before builtin check\n");
-		for (pos_cpy = 0; token_list[pos_cpy]; pos_cpy++)
-			printf("token_list[%d] is %s\n", pos_cpy, token_list[pos_cpy]);
 		exit_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
-		printf("token_list in main after built in call\n");
-		for (pos_cpy = 0; token_list[pos_cpy]; pos_cpy++)
-			printf("token_list[%d] is %s\n", pos_cpy, token_list[pos_cpy]);
 		if (exit_stat == 1)/* exit */
 			return (0);
 		else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
-		{
-			printf("token_list before entering find\n");
-			for (pos_cpy = 0; token_list[pos_cpy]; pos_cpy++)
-				printf("token_list[%d] is %s\n", pos_cpy, token_list[pos_cpy]);
 			_findcommand(path_list, token_list, envp);
-		}
 		/*}
 		 Checking that envp is not broken
 		printf("\n\nexit_stat: %d\n\nprinting envp\n\n", exit_stat);

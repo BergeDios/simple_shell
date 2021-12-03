@@ -45,9 +45,6 @@ int _getcommand(char *token_list[], char *line)
 		token = strtok(NULL, " ");
 	}
 	token_list[pos_tok] = NULL;
-	printf("TOKEN LIST BEFORE EXITING GETCOMMAND\n");
-	for (pos_tok = 0; token_list[pos_tok]; pos_tok++)
-		printf("token_list[%d] is %s\n", pos_tok, token_list[pos_tok]);
 	return (0);
 }
 
@@ -131,16 +128,11 @@ int _findcommand(char *path_list[], char *token_list[], char *envp[])
 		if (acc == 0)
 			return (_execute_command(token_list[0], token_list, envp));
 	}
-	printf("TOKEN LIST IN FIND BEFORE STRCAT\n");
-	for (pos_path = 0; token_list[pos_path]; pos_path++)
-		printf("token_list[%d] is %s\n", pos_path, token_list[pos_path]);
-
 	for (pos_path = 0; path_list[pos_path]; pos_path++)
 	{
 		_strcpy(path, path_list[pos_path]);
 		_strcat(path, "/");
 		_strcat(path, token_list[0]);
-		printf("%s\n", path);
 		acc = access(path, (R_OK | X_OK));
 
 		if (acc == 0)
