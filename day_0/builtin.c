@@ -235,6 +235,5 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		_unsetenv(envp);
 		i = 0;
 	}*/
-	free_strlist(token_list);
 	return (i);
 }
