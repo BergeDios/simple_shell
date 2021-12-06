@@ -12,15 +12,11 @@ int main(int argc, char *argv[], char *envp[])
 	char *path_list[1024], *token_list[1024], *envp_copy[1024];
 	char *line, curr_directory[PATH_MAX];
 	size_t n;
-	int r, exit_stat, pos_cpy, log_fd;
+	int r, builtin_stat, pos_log, pos_cpy;
 
-	n = 1024;
+	n = 1024, pos_log = 0;
 	(void)argc, (void)argv;
-	line = NULL, *token_list = NULL, *path_list = NULL, *envp_copy = NULL;
-
-	log_fd = open("./log", O_CREAT | O_APPEND | O_RDWR, 0666);
-	if (log_fd < 0)
-		return (-1);
+	line = NULL, *token_list = NULL, *path_list = NULL, *envp_copy = NULL, *history_list = NULL;
 
 	/*copy of envp to tokenize*/
 	for (pos_cpy = 0; envp[pos_cpy]; pos_cpy++)
@@ -46,17 +42,22 @@ int main(int argc, char *argv[], char *envp[])
 			ctrl_d(r, line, token_list, envp_copy);makes ctrl d exit
 		else
 		{*/
+
 		if (line[0] == '\n')
 			continue;
-		write(log_fd, line, _strlen(line));
+
+		history_list[pos_log] = malloc(sizeof(char) * _strlen(line) + 1);
+		_strcpy(history_list[pos_log], line);
+		pos_log++;		
+		/*write(log_fd, line, _strlen(line));*/
 		line[_strlen(line) - 1] = '\0';
 		_getcommand(token_list, line);
 		if (r == -1)
 			 ctrl_d(r, line, token_list, envp_copy);/*makes ctrl d exit*/
-		exit_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
-		if (exit_stat == 1)/* exit */
-			return (0);
-		else if (exit_stat == -1)/* it didnt find a built in -> search it in path_list */
+		builtin_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
+		if (builtin_stat == 0)/* was built in */
+			continue;
+		else if (builtin_stat == -1)/* it didnt find a built in -> search it in path_list */
 			_findcommand(path_list, token_list, envp);
 		/*}
 		 Checking that envp is not broken

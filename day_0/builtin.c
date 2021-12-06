@@ -1,5 +1,47 @@
 #include "shell.h"
 #include <errno.h>
+
+/**
+ * history - displays the history list, one command by line, preceded by number
+ */
+void history()
+{
+	int pos;
+	for (pos = 0; history_list[pos]; pos++)
+		printf("%d %s", pos, history_list[pos]);
+}
+/**
+ * save_history - writes on the user log the commands that were
+ * executed during runtime
+ *
+ * Return: 0 on success | -1 on failure
+ */
+int save_history()
+{
+	char c;
+	int pos, log_fd, lines = 0;
+
+	printf("len history_list: %d\n", _strlen(history_list));
+
+	log_fd = open("./log", O_CREAT | O_APPEND | O_RDWR, 0666);
+	if (log_fd == -1)
+	{
+		perror(errno);
+		return (-1);
+	}
+	/* have to put * ((file_lines + history_lines) % 4096) * at the beggining of the file
+	 while (c = getc(log_fd))
+		if (c == '\n')
+			lines++;
+
+	lines += _strlen(history_list);*/
+	for (pos = 0; history_list[pos]; pos++)
+	{
+		write(log_fd, history_list[pos], _strlen(history_list[pos]));
+		/*check for error */
+	}
+	return (0);
+}
 /**
  * __exit - exit the functions when "exit" is inputed
  * @line: input to be freed
@@ -16,10 +58,13 @@ void __exit(int n, char *line, char *token_list[], char *envp_copy[])
 	free_strlist(token_list);
 	if (envp_copy)
 		free_strlist(envp_copy);
+
+	save_history();
 	printf("exiting\n");
 
 	if (n)
 		exit(n);
+
 	exit(0);
 }
 /**
@@ -214,25 +259,29 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		__exit(3, line, token_list, envp_copy);
 		i = 1;
 	}
-	else if (_strncmp(token_list[0], "cd", l) == 0)
+	else if (_strncmp(token_list[0], "cd", 2) == 0)
 	{
 		_cd(token_list);
 		i = 0;
 	}
-	else if (_strncmp(token_list[0], "env", l) == 0)
+	else if (_strncmp(token_list[0], "env", 3) == 0)
 	{
 		_env(envp);
 		i = 0;
 	}
-	else if (_strncmp(token_list[0], "setenv", l) == 0)
+	else if (_strncmp(token_list[0], "setenv", 6) == 0)
 	{
 		_setenv(token_list[1], token_list[2], envp);
 		i = 0;
 	}
-	/*else if (_strncmp(line, "unsetenv", l) == 0)
+	/*else if (_strncmp(line, "unsetenv", 8) == 0)
 	{
 		_unsetenv(envp);
 		i = 0;
 	}*/
+	else if(_strncmp(line, "history", 7) == 0)
+	{
+		history();
+	}
 	return (i);
 }
