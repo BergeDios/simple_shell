@@ -11,4 +11,16 @@ env kakakks
 envls
 pepe
 pepeenv
+envsetenv hu=go
+setenvsetenv hu go
+setenvsetenv hu go
+setenvsetenv hu go
+setenvenv
+ls
+ls -l /tmp
+ls
 env
+setenv hu go
+env
+envls -l /tmp
+ls

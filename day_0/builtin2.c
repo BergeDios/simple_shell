@@ -11,7 +11,7 @@ int _setenv(char *name, char *value, char *envp[])
 	int index = 0, pos_new = 0, pos_env = 0;
 	char *concat, **new_envp;
 
-	concat = NULL;
+	concat = NULL, new_envp = NULL;
 	if (!value)
 	{
 		write(STDOUT_FILENO, "Too few arguments\n", 18);
@@ -49,6 +49,8 @@ int _setenv(char *name, char *value, char *envp[])
 			{
 				free(concat);
 				free_strlist(new_envp);
+				free(new_envp);
+				return (-1);
 			}
 			_strcpy(new_envp[pos_new], envp[pos_new]);
 		}
@@ -60,6 +62,8 @@ int _setenv(char *name, char *value, char *envp[])
 		{
 			free(concat);
 			free_strlist(new_envp);
+			free(new_envp);
+			return (-1);
 		}
 		printf("going to copy hu go\n");
 		_strcpy(new_envp[pos_new], concat);
@@ -84,7 +88,8 @@ int _setenv(char *name, char *value, char *envp[])
 				if (new_envp[pos_new] == NULL)
 				{
 					free(concat);
-					free_strlist(new_envp);
+					free(new_envp);
+					return (-1);
 				}
 				_strcpy(new_envp[pos_new], concat);
 				continue;
@@ -94,10 +99,12 @@ int _setenv(char *name, char *value, char *envp[])
 			{
 				free(concat);
 				free_strlist(new_envp);
+				free(new_envp);
+				return (-1);
 			}
 			_strcpy(new_envp[pos_new], envp[pos_new]);
 		}
-		new_envp[pos_new] = NULL;
+		/*new_envp[pos_new] = NULL;*/
 	}
 	printf("**AFTER SETENV**\n");
 	for (pos_new = 0; new_envp[pos_new]; pos_new++)
@@ -109,15 +116,17 @@ int _setenv(char *name, char *value, char *envp[])
 	{
 		free_strlist(new_envp);
 		free(concat);
+		free(new_envp);
 		return (-1);
 	}
 	for (pos_new = 0; new_envp[pos_new]; pos_new++)
 	{
-		envp[pos_new] = malloc(_strlen(new_envp[pos_new]));
+		envp[pos_new] = malloc(sizeof(char) * _strlen(new_envp[pos_new]) + 1);
 		_strcpy(envp[pos_new], new_envp[pos_new]);
 	}
 	free_strlist(new_envp);
 	free(concat);
+	free(new_envp);
 	return (0);
 }
 /**
@@ -132,7 +141,7 @@ int find_env(char *envp[], char *name)
 
 	while (envp[i])
 	{
-		if (_strncmp(envp[i], name, (_strlen(name))) == 0) /* if matches entirely, break return i*/
+		if (_strncmp(envp[i], name, (_strlen(name))) == 0)
 			break;
 		i++;
 	}
