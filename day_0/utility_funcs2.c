@@ -31,3 +31,13 @@ ssize_t _strcspn(const char *s, const char *reject)
 
 	return (count);
 }
+/**
+ * ctrl_c - makes ctrl_c print prompt instead of exit
+ * @n: num from signal
+ * Return: void
+ */
+void ctrl_c(int n)
+{
+	(void)n;
+	write(STDOUT_FILENO, "\n> ", 3);
+}

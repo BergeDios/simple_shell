@@ -1,16 +1,6 @@
 #include "shell.h"
 #include <errno.h>
 /**
- * ctrl_c - makes ctrl_c print prompt instead of exit
- * @n: num from signal
- * Return: void
- */
-void ctrl_c(int n)
-{
-	(void)n;
-	write(STDOUT_FILENO, "\n> ", 3);
-}
-/**
  * ctrl_d - exits program if ctrl_d pressed
  * @n: num of chars read
  * @line: line inputed by user
@@ -90,6 +80,13 @@ int _getenv(char *path_list[], char *envp_copy[])
 		return (-1);
 	return (0);
 }
+/**
+ * _execute_command - makes child process and runs execve
+ * @path: path to file to execute
+ * @token_list: argument array for execution
+ * @envp: enviormental variable array
+ * Return: 0 on success or -1
+ */
 
 int _execute_command(char *path, char *token_list[], char *envp[])
 {
@@ -116,7 +113,7 @@ int _execute_command(char *path, char *token_list[], char *envp[])
 		}
 	}
 	else
-		perror ("fork failed");
+		perror("fork failed");
 	return (-1);
 }
 
