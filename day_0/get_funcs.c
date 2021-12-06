@@ -40,6 +40,11 @@ int _getcommand(char *token_list[], char *line)
 	while (token != NULL)
 	{
 		token_list[pos_tok] = malloc(sizeof(char) * (_strlen(token) + 1));
+		if (!token_list[pos_tok])
+		{
+			perror("no memory available for malloc token_list");
+			return (-1);
+		}
 		_strcpy(token_list[pos_tok], token);
 		pos_tok++;
 		token = _strtok(NULL, " ");

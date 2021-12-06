@@ -9,7 +9,10 @@ int free_strlist(char *list[])
 	int pos;
 
 	if (!*list)
+	{
+		perror("no list to free");
 		return (-1);
+	}
 	for (pos = 0; list[pos]; pos++)
 		free(list[pos]);
 	return (0);
@@ -23,12 +26,12 @@ int free_strlist(char *list[])
  */
 char *strtok_save(char *str, const char *delim, char **save_ptr)
 {
-	char *next, *str2;
+	char *next;
 
-	next = NULL, str2 = NULL;
+	next = NULL;
 
 	if (str == NULL)
-		str2 = *save_ptr;
+		str = *save_ptr;
 	if (*str == '\0')
 	{
 		*save_ptr = str;

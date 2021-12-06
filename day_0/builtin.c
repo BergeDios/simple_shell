@@ -4,7 +4,7 @@
 /**
  * history - displays the history list, one command by line, preceded by number
  */
-void history()
+void history(void)
 {
 	int pos;
 	for (pos = 0; history_list[pos]; pos++)
@@ -16,17 +16,14 @@ void history()
  *
  * Return: 0 on success | -1 on failure
  */
-int save_history()
+int save_history(void)
 {
-	char c;
-	int pos, log_fd, lines = 0;
-
-	printf("len history_list: %d\n", _strlen(history_list));
+	int pos, log_fd;
 
 	log_fd = open("./log", O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (log_fd == -1)
 	{
-		perror(errno);
+		perror("Couldn't open log file");
 		return (-1);
 	}
 	/* have to put * ((file_lines + history_lines) % 4096) * at the beggining of the file
@@ -40,6 +37,7 @@ int save_history()
 		write(log_fd, history_list[pos], _strlen(history_list[pos]));
 		/*check for error */
 	}
+	close(log_fd);
 	return (0);
 }
 /**
@@ -223,21 +221,21 @@ int find_env(char *envp[], char *name)
 }
 /**
  * _cd - change directory based on the given path
- * @path: next working directory
+ * @token_list: next working directory
  * Return: 0 on succes -1 on failure
  */
 int _cd(char *token_list[])
 {
 	if (token_list[2])
 	{
-		printf("To many arguments\n");
+		perror("Too  many arguments");
 		return (-1);
 	}
 	if (chdir(token_list[1]) == 0)
 		return (0);
 	else
 	{
-		printf("errno: %d Can't access %s\n", errno, token_list[1]);
+		perror("Can't access directory");
 		return (-1);
 	}
 }
@@ -251,7 +249,6 @@ int _cd(char *token_list[])
 int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 {
 	int i = -1;
-	int l = (_strlen(token_list[0]));
 
 	(void)envp;
 	if (_strncmp(token_list[0], "exit", 4) == 0)
@@ -279,9 +276,10 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		_unsetenv(envp);
 		i = 0;
 	}*/
-	else if(_strncmp(line, "history", 7) == 0)
+	else if (_strncmp(line, "history", 7) == 0)
 	{
 		history();
+		i = 0;
 	}
 	return (i);
 }

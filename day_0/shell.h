@@ -39,6 +39,10 @@ int _env(char *envp[]);
 int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line);
 int find_env(char *envp[], char *name);
 int _setenv(char *name, char *value, char *envp[]);
+/*BUILT IN FUNCS 2*/
+void history (void);
+int save_history (void);
+
 
 /* GLOBALS TO GO INSIDE STRUCT */
 char *history_list[1024];
