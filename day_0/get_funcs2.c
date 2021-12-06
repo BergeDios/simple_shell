@@ -23,16 +23,12 @@ int free_strlist(char *list[])
  */
 char *strtok_save(char *str, const char *delim, char **save_ptr)
 {
-	char *next;
+	char *next, *str2;
+
+	next = NULL, str2 = NULL;
 
 	if (str == NULL)
-		str = *save_ptr;
-	if (*str == '\0')
-	{
-		*save_ptr = str;
-		return (NULL);
-	}
-
+		str2 = *save_ptr;
 	if (*str == '\0')
 	{
 		*save_ptr = str;

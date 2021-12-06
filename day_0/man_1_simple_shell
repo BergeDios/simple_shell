@@ -44,7 +44,18 @@ whereis
 .I [command]
       prints to standard output which directory the function or shell builtin can be found
 .SS Shell Builtin Commands
-.I cuando las hagamos
+.sp 
+cd
+      changes directory 
+.sp
+exit
+      exits out of simple shell and returns to user's original shell
+.sp
+env
+      prints enviromental variables
+.sp
+history
+      send every input when exiting shell to a file at $HOME named "log"
 
 .SH EXAMPLE
 To
