@@ -36,13 +36,13 @@ int _getcommand(char *token_list[], char *line)
 	char *token = NULL;
 	int pos_tok = 0;
 
-	token = strtok(line, " ");
+	token = _strtok(line, " ");
 	while (token != NULL)
 	{
 		token_list[pos_tok] = malloc(sizeof(char) * (_strlen(token) + 1));
 		_strcpy(token_list[pos_tok], token);
 		pos_tok++;
-		token = strtok(NULL, " ");
+		token = _strtok(NULL, " ");
 	}
 	token_list[pos_tok] = NULL;
 	return (0);
@@ -66,16 +66,16 @@ int _getenv(char *path_list[], char *envp_copy[])
 	token = NULL;
 	for (i = 0; envp_copy[i]; i++)
 	{
-		token = strtok(envp_copy[i], "=");
+		token = _strtok(envp_copy[i], "=");
 		if (_strncmp(token, "PATH", l) == 0)
 		{
-			token = strtok(NULL, "=");
-			token = strtok(token, ":");
+			token = _strtok(NULL, "=");
+			token = _strtok(token, ":");
 			while (token != NULL)
 			{
 				path_list[pos_path] = token;
 				pos_path++;
-				token = strtok(NULL, ":");
+				token = _strtok(NULL, ":");
 			}
 		}
 
@@ -88,22 +88,30 @@ int _getenv(char *path_list[], char *envp_copy[])
 
 int _execute_command(char *path, char *token_list[], char *envp[])
 {
-	int status;
+	int status, exit_stat = 0;
 	pid_t id;
 
 	id = fork();
-	if (id != 0)
+	if (id > 0)
 	{
 		wait(&status);
 		if (status == 0)
-		{	
+		{
 		/*free_strlist(token_list);*/
 		return (0);
 		}
 	}
+	else if (id == 0)
+	{
+		exit_stat = execve(path, token_list, envp);
+		if (exit_stat == -1)
+		{
+			perror("execve failed");
+			return (-1);
+		}
+	}
 	else
-		execve(path, token_list, envp);
-
+		perror ("fork failed");
 	return (-1);
 }
 

@@ -17,6 +17,8 @@ int _strncmp(char *s1, char *s2, size_t n);
 int _strcmp(char *s1, char *s2);
 int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
+/*UTILITY FUNCS 2*/
+ssize_t _strcspn(const char *s, const char *reject);
 /*GET FUNCS*/
 int _getcommand(char *token_list[], char *line);
 int _getenv(char *path_list[], char *envp_copy[]);
@@ -26,6 +28,9 @@ void ctrl_c(int n);
 void ctrl_d(int n, char *line, char *token_list[], char *envp_copy[]);
 /*GET FUNCS 2*/
 int free_strlist(char *list[]);
+char *strtok_save(char *str, const char *delim, char **save_ptr);
+char *_strtok(char *str, const char *delim);
+
 int main(int argc, char *argv[], char *envp[]);
 
 /*BUILT IN FUNCS*/
