@@ -165,4 +165,31 @@ ls
 cat error
 ls
 history
-history
+historyls
+ls -la
+ ls
+exit
+ls
+ls -la
+ ls
+exit
+ls
+   ls
+exit
+ls
+ ls
+ls -la
+ls  -la
+exit
+ls
+ ls
+exit
+ls
+       ls
+echo "ls
+exit
+ls
+env
+exit
+^D
+^D
