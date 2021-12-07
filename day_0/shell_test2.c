@@ -48,7 +48,7 @@ int main(int argc, char *argv[], char *envp[])
 
 		history_list[pos_log] = malloc(sizeof(char) * _strlen(line) + 1);
 		_strcpy(history_list[pos_log], line);
-		pos_log++;		
+		pos_log++;
 		/*write(log_fd, line, _strlen(line));*/
 		line[_strlen(line) - 1] = '\0';
 		_getcommand(token_list, line);

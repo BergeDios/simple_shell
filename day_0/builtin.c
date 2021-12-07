@@ -53,13 +53,13 @@ void __exit(int n, char *line, char *token_list[], char *envp_copy[])
 
 	if (line)
 		free(line);
-	/*here is the braking point*/
 	free_strlist(token_list);
 	if (envp_copy)
 		free_strlist(envp_copy);
 
 	save_history();
 	printf("exiting\n");
+	free_strlist(history_list);
 
 	if (n)
 		exit(n);
