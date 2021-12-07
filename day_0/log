@@ -50,4 +50,39 @@ lshelp cd
 helphistory
 historycd
 cdcd
+cd/bin/ls/
+/bin/ls
+/bin//ls
+/ls
+/lsls -l /tmp
+lsenv
+envenv
+envenv
+envenv
+envenv
+envenv
+envenv
+envenv
+envhelp
+helpcd
+cdcd
+cdcd
+cdcd /simple_shell
+ls
+cd simple_shell/day_0
+cd day_0
+cd /simple_shell
+cd ..
+cd -
+cd simple_shell/day_0
+history
+exit
+ls -l /tmp
+lsenv
+envenv
+envenv
+envcd simple_shell
+cdcd
+cdcd pepito
+cdcd simple_shell/
 cd

@@ -49,6 +49,8 @@ int _help(char *token_list[]);
 
 /* GLOBALS TO GO INSIDE STRUCT */
 char *history_list[1024];
+char *home;
+char *envp_copy2[1024];
 
 /* END OF GLOBALS */
 
