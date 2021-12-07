@@ -85,4 +85,84 @@ envcd simple_shell
 cdcd
 cdcd pepito
 cdcd simple_shell/
-cd
+cdls -l /tmp
+ls     ls
+     ls
+ls
+exit
+ls
+exit
+ls
+ls  -l
+     ls
+ls
+ls  -l
+     ls
+   ls   -la
+   ls   -la
+   ls   -la
+   ls   -la
+   ls   -la
+exit
+   ls   -la
+   ls   -la
+exit
+la
+la
+ls
+ls   ls   -la
+exitr
+   ls   -la
+exit
+   ls   -la
+   ls   -la
+exit
+   ls   -la
+ls   -la
+ls     
+exit
+   ls   -la
+exit
+/ bin/ls
+exit
+/ bin/ls
+exit
+ls
+exit
+exit
+adighpg
+exit
+ls   -la
+ls -la
+exit
+ls -la
+exit
+ls
+ls -la
+ls    -la
+ls  -la
+exit
+ls -la
+ls
+exit
+ls
+ls -la
+ls  -la
+exit
+ls
+ls -la
+   ls
+ls    
+ls   -la
+lsenv
+env     ls
+     ls^D
+^Dldsld
+ldsldhistory
+historyhistory
+ls
+ls
+cat error
+ls
+history
+history

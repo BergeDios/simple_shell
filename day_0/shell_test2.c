@@ -42,7 +42,7 @@ int main(int argc, char *argv[], char *envp[])
 		line[_strlen(line) - 1] = '\0';
 		_getcommand(token_list, line);
 		if (r == -1)
-			ctrl_d(r, line, token_list, envp_copy);/*makes ctrl d exit*/
+			ctrl_d(line, token_list, envp_copy);/*makes ctrl d exit*/
 		builtin_stat = built_in(token_list, envp, envp_copy, line);/* checks if calling built in first */
 		if (builtin_stat == 0)/* was built in */
 		{

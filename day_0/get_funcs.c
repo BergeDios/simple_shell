@@ -2,16 +2,14 @@
 #include <errno.h>
 /**
  * ctrl_d - exits program if ctrl_d pressed
- * @n: num of chars read
  * @line: line inputed by user
  * @token_list: env var
  * @envp_copy: lo dice
  * Return: nothing
  */
-void ctrl_d(int n, char *line, char *token_list[], char *envp_copy[])
+void ctrl_d(char *line, char *token_list[], char *envp_copy[])
 {
-	(void)n;
-	__exit(2, line, token_list, envp_copy);
+	__exit(0, line, token_list, envp_copy);
 	write(STDOUT_FILENO, "\n", 1);
 	exit(0);
 }
@@ -23,10 +21,33 @@ void ctrl_d(int n, char *line, char *token_list[], char *envp_copy[])
  */
 int _getcommand(char *token_list[], char *line)
 {
-	char *token = NULL;
-	int pos_tok = 0;
+	char *token = NULL, *delim = " "/*, *line2*/;
+	int pos_tok = 0/*, pos = 0, counter = 0*/;
 
-	token = _strtok(line, " ");
+	/*for (pos = 0; line[pos]; pos++)
+	{
+		if ((line[pos] + 1) != ' ' && line[pos] == ' '
+				&& counter > 0)
+			counter++;
+		if (line[pos] != ' ')
+			counter++;
+	}
+	counter++;
+	printf("counter is %d\n", counter);
+	line2 = malloc(sizeof(char) * counter);
+	counter = 0;
+	for (pos = 0; line[pos]; pos++)
+	{
+		if (line[pos] != ' ')
+			line2[pos] = line[pos];
+		if ((line[pos] + 1) != ' ' && line[pos] == ' '
+				&& counter > 0)
+			line2[pos] = ' ';
+	}
+	line2[pos] = '\0';
+	printf("strlen of lin2 is: %d\n", (_strlen(line2) + 1));
+	printf("line2 is:%s\n", line2);*/
+	token = strtok(line, delim);
 	while (token != NULL)
 	{
 		token_list[pos_tok] = malloc(sizeof(char) * (_strlen(token) + 1));
@@ -35,11 +56,16 @@ int _getcommand(char *token_list[], char *line)
 			perror("no memory available for malloc token_list");
 			return (-1);
 		}
+
 		_strcpy(token_list[pos_tok], token);
 		pos_tok++;
-		token = _strtok(NULL, " ");
+		token = strtok(NULL, delim);
 	}
 	token_list[pos_tok] = NULL;
+	for (pos_tok = 0; token_list[pos_tok]; pos_tok++)
+	{
+		printf("token_list[%d] id: %s\n", pos_tok, token_list[pos_tok]);
+	}
 	return (0);
 }
 
@@ -61,16 +87,16 @@ int _getenv(char *path_list[], char *envp_copy[])
 	token = NULL;
 	for (i = 0; envp_copy[i]; i++)
 	{
-		token = _strtok(envp_copy[i], "=");
+		token = strtok(envp_copy[i], "=");
 		if (_strncmp(token, "PATH", l) == 0)
 		{
-			token = _strtok(NULL, "=");
-			token = _strtok(token, ":");
+			token = strtok(NULL, "=");
+			token = strtok(token, ":");
 			while (token != NULL)
 			{
 				path_list[pos_path] = token;
 				pos_path++;
-				token = _strtok(NULL, ":");
+				token = strtok(NULL, ":");
 			}
 		}
 

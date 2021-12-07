@@ -41,12 +41,14 @@ char *strtok_save(char *str, const char *delim, char **save_ptr)
 	/*moves next pointer to next delim*/
 	next = str + _strcspn(str, delim);
 
+	while ((*next + 1) == ' ')
+		next = next + 1;
+
 	if (*next == '\0')
 	{
 		*save_ptr = next;
 		return (str);
 	}
-
 	*next = '\0';
 	*save_ptr = next + 1;
 	return (str);

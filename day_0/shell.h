@@ -26,7 +26,7 @@ int _getenv(char *path_list[], char *envp_copy[]);
 int _findcommand(char *path_list[], char *commandyarg[], char *envp[]);
 int _execute_command(char *path, char *token_list[], char *envp[]);
 void ctrl_c(int n);
-void ctrl_d(int n, char *line, char *token_list[], char *envp_copy[]);
+void ctrl_d(char *line, char *token_list[], char *envp_copy[]);
 /*GET FUNCS 2*/
 int free_strlist(char *list[]);
 char *strtok_save(char *str, const char *delim, char **save_ptr);
