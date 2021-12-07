@@ -23,4 +23,11 @@ env
 setenv hu go
 env
 envls -l /tmp
-ls
+lsenv
+help cd
+help history
+help env
+help setenv
+help
+helphelp
+help

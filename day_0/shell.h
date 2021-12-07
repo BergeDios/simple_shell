@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 /*UTILITY FUNCS*/
 char *_strcat(char *dest, char *src);
@@ -44,7 +45,7 @@ int save_history (void);
 int _cd(char *token_list[]);
 int find_env(char *envp[], char *name);
 int _setenv(char *name, char *value, char *envp[]);
-
+int _help(char *token_list[]);
 
 /* GLOBALS TO GO INSIDE STRUCT */
 char *history_list[1024];

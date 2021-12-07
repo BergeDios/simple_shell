@@ -119,12 +119,12 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 		_setenv(token_list[1], token_list[2], envp);
 		i = 0;
 	}
-	/*else if (_strncmp(line, "unsetenv", 8) == 0)
+	else if (_strncmp(token_list[0], "help", 4) == 0)
 	{
-		_unsetenv(envp);
+		_help(token_list);
 		i = 0;
-	}*/
-	else if (_strncmp(line, "history", 7) == 0)
+	}
+	else if (_strncmp(token_list[0], "history", 7) == 0)
 	{
 		history();
 		i = 0;
