@@ -35,11 +35,11 @@ char *_strtok(char *str, const char *delim);
 int main(int argc, char *argv[], char *envp[]);
 
 /*BUILT IN FUNCS*/
-void __exit(int n, char *line, char *token_list[], char *envp_copy[]);
+void __exit(char *line, char *token_list[], char *envp_copy[]);
 int _env(char *envp[]);
 int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line);
-void history (void);
-int save_history (void);
+void history(void);
+int save_history(void);
 
 /*BUILT IN FUNCS 2*/
 int _cd(char *token_list[]);

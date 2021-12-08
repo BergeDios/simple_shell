@@ -61,7 +61,7 @@ int _strlen(char *s)
 	return (j);
 }
 /**
- * _strcmp - compares two strings
+ * _strncmp - compares two strings
  * @s1: first string.
  * @s2: second string.
  * @n: number of bytes to compare

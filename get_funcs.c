@@ -9,7 +9,7 @@
  */
 void ctrl_d(char *line, char *token_list[], char *envp_copy[])
 {
-	__exit(0, line, token_list, envp_copy);
+	__exit(line, token_list, envp_copy);
 	write(STDOUT_FILENO, "\n", 1);
 	exit(0);
 }
@@ -24,29 +24,6 @@ int _getcommand(char *token_list[], char *line)
 	char *token = NULL, *delim = " "/*, *line2*/;
 	int pos_tok = 0/*, pos = 0, counter = 0*/;
 
-	/*for (pos = 0; line[pos]; pos++)
-	{
-		if ((line[pos] + 1) != ' ' && line[pos] == ' '
-				&& counter > 0)
-			counter++;
-		if (line[pos] != ' ')
-			counter++;
-	}
-	counter++;
-	printf("counter is %d\n", counter);
-	line2 = malloc(sizeof(char) * counter);
-	counter = 0;
-	for (pos = 0; line[pos]; pos++)
-	{
-		if (line[pos] != ' ')
-			line2[pos] = line[pos];
-		if ((line[pos] + 1) != ' ' && line[pos] == ' '
-				&& counter > 0)
-			line2[pos] = ' ';
-	}
-	line2[pos] = '\0';
-	printf("strlen of lin2 is: %d\n", (_strlen(line2) + 1));
-	printf("line2 is:%s\n", line2);*/
 	token = strtok(line, delim);
 	while (token != NULL)
 	{

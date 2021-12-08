@@ -27,12 +27,6 @@ int save_history(void)
 		perror("Couldn't open log file");
 		return (-1);
 	}
-	/* have to put * ((file_lines + history_lines) % 4096) * at the beggining of the file
-	 while (c = getc(log_fd))
-		if (c == '\n')
-			lines++;
-
-	lines += _strlen(history_list);*/
 	for (pos = 0; history_list[pos]; pos++)
 	{
 		write(log_fd, history_list[pos], _strlen(history_list[pos]));
@@ -48,8 +42,9 @@ int save_history(void)
  * @envp_copy: lo deice el nombre
  * Return: 0 on success
  */
-void __exit(int n, char *line, char *token_list[], char *envp_copy[])
+void __exit(char *line, char *token_list[], char *envp_copy[])
 {
+	int n = 0;
 
 	if (line)
 		free(line);
@@ -61,10 +56,7 @@ void __exit(int n, char *line, char *token_list[], char *envp_copy[])
 	save_history();
 	free_strlist(history_list);
 
-	if (n)
-		exit(n);
-
-	exit(0);
+	exit(n);
 }
 /**
  * _env - prints currenct enviroment
@@ -87,6 +79,7 @@ int _env(char *envp[])
  * @token_list: to bring token_list[0]
  * @envp: array of pointers to env variables
  * @envp_copy: lo dice el nombre
+ * @line: input line
  * Return: 0 succes or -1
  */
 int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
@@ -96,7 +89,7 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 	(void)envp;
 	if (_strncmp(token_list[0], "exit", 4) == 0)
 	{
-		__exit(3, line, token_list, envp_copy);
+		__exit(line, token_list, envp_copy);
 		i = 1;
 	}
 	else if (_strncmp(token_list[0], "cd", 2) == 0)
@@ -112,11 +105,6 @@ int built_in(char *token_list[], char *envp[], char *envp_copy[], char *line)
 			return (-1);
 		}
 		_env(envp);
-		i = 0;
-	}
-	else if (_strncmp(token_list[0], "setenv", 6) == 0)
-	{
-		_setenv(token_list[1], token_list[2], envp);
 		i = 0;
 	}
 	else if (_strncmp(token_list[0], "help", 4) == 0)

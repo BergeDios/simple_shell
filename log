@@ -3,4 +3,23 @@ cdls
 per
 perls
 lsenv
+envls
+exit
+ls -1
 env
+cd ..
+cd simple_shell
+cat hsh
+clear
+exit
+ls -1
+exit
+ls -1
+exit
+ls -1
+exit
+ls -1
+exit
+ls -1
+env
+exit
