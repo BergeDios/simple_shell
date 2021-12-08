@@ -44,8 +44,6 @@ int save_history(void)
  */
 void __exit(char *line, char *token_list[], char *envp_copy[])
 {
-	int n = 0;
-
 	if (line)
 		free(line);
 	if (token_list)
@@ -56,7 +54,7 @@ void __exit(char *line, char *token_list[], char *envp_copy[])
 	save_history();
 	free_strlist(history_list);
 
-	exit(n);
+	exit(errstat);
 }
 /**
  * _env - prints currenct enviroment

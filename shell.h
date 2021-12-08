@@ -51,7 +51,7 @@ int _help(char *token_list[]);
 char *history_list[1024];
 char *home;
 char *envp_copy2[1024];
-
+unsigned int errstat;
 /* END OF GLOBALS */
 
 

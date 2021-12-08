@@ -89,17 +89,17 @@ int _getenv(char *path_list[], char *envp_copy[])
 
 int _execute_command(char *path, char *token_list[], char *envp[])
 {
-	int status, exit_stat = 0;
+	int status = 0, exit_stat = 0;
 	pid_t id;
 
 	id = fork();
 	if (id > 0)
 	{
 		wait(&status);
-		if (status == 0)
+		if (WIFEXITED(status))
 		{
 		/*free_strlist(token_list);*/
-		return (0);
+			return (WEXITSTATUS(status));
 		}
 	}
 	else if (id == 0)
@@ -112,8 +112,12 @@ int _execute_command(char *path, char *token_list[], char *envp[])
 		}
 	}
 	else
+	{
 		perror("fork failed");
-	return (-1);
+		return (-1);
+	}
+
+	return (status);
 }
 
 /**

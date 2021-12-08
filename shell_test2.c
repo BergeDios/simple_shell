@@ -43,7 +43,7 @@ int main(int argc, char *argv[], char *envp[])
 			continue;
 		}
 		else if (builtin_stat == -1)/* if not a built in -> search it in path_list */
-			_findcommand(path_list, token_list, envp);
+			errstat = _findcommand(path_list, token_list, envp);
 		free_strlist(token_list);
 	}
 	__exit(line, token_list, envp_copy);
