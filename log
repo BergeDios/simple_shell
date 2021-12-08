@@ -1,0 +1,6 @@
+cd /simple_shell
+cdls
+per
+perls
+lsenv
+env

@@ -1,12 +1,16 @@
 #!/bin/bash
-STR=$(ls)
 echo -e "\033[0;31m########TEST ls#######\033[0;37m"
 
 echo -e "\033[0;34m>>>>>>>>>EXPECTED<<<<<<<<<\033[0;32m"
-echo "$STR"
+echo $(ls)
 echo -e "\033[0;34m>>>>>>>>>>GOT<<<<<<<<<<<<\033[0;37m"
-STR2="echo ls | ./shell2"
-echo $STR2
+echo $(echo ls | ./shell2)
+
+if [[ $(ls) =~ $(echo ls | ./shell2) ]]; then
+	echo -e "\033[0;32m#THEY MATCH#\033[0;37m"
+else
+	echo "\033[0;31m#THEY DONT MATCH#\033[0;37m"
+fi
 echo -e "\033[0;31m########TEST ls WITH PATH########\033[0;37m"
 echo -e "\033[0;34m>>>>>>>>>EXPECTED<<<<<<<<<\033[0;32m"
 /bin/ls
