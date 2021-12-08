@@ -62,10 +62,6 @@ int _getcommand(char *token_list[], char *line)
 		token = strtok(NULL, delim);
 	}
 	token_list[pos_tok] = NULL;
-	for (pos_tok = 0; token_list[pos_tok]; pos_tok++)
-	{
-		printf("token_list[%d] id: %s\n", pos_tok, token_list[pos_tok]);
-	}
 	return (0);
 }
 

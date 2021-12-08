@@ -192,4 +192,194 @@ ls
 env
 exit
 ^D
-^D
+^Dtest/testls
+test/testlsls
+lsls
+/bin/ls
+/bin/ls
+   ls
+   lsls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+/bin/lsls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+/bin/lsls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+/bin/lsls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+ls -l *c
+lsls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+ls -l *c
+lsecho "ls" | ./shell2
+ls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+ls -l *c
+lsecho "ls"
+ls
+/bin/ls
+   ls
+ls -la /tmp
+/bin/ls -la /tmp
+ls -l *c
+lsecho "##TEST ls##"
+ls
+echo "##TEST ls WITH PATH##"
+/bin/ls
+echo "##TEST ls WITH SPACES##"
+   ls
+echo "##TEST ls -la /tmp##"
+ls -la /tmp
+echo "##TEST ls -la /tmp WITH PATH##"
+/bin/ls -la /tmp
+echo "##TEST ls -l *c##
+echo "should fail unless handling * wildcard"
+ls -l *c
+lsRED='\033[0;31m'
+echo -e "${RED}##TEST ls##${RED}"
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e \033[0;31m##TEST ls##
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e \033[0;31m##TEST ls##\033[1;37
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e "\033[0;31m##TEST ls##\033[1;37"
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e "\033[0;37m##TEST ls##\033[1;37"
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e "\033[31m##TEST ls##\033[37m"
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e "\033[0;31m##TEST ls##\033[0;37m"
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e \033[0;31m########TEST ls#######\033[0;37m
+ls
+echo ##TEST ls WITH PATH##
+/bin/ls
+echo ##TEST ls WITH SPACES##
+   ls
+echo ##TEST ls -la /tmp##
+ls -la /tmp
+echo ##TEST ls -la /tmp WITH PATH##
+/bin/ls -la /tmp
+echo ##TEST ls -l *c##
+echo ##SHOULD FAIL UNLESS HANDLING * WILDCARD##
+ls -l *c
+lsecho -e \033[0;31m########TEST ls#######\033[0;37m
+ls
+echo -e \033[0;31m########TEST ls WITH PATH########\033[0;37m
+/bin/ls
+echo -e \033[0;31m########TEST ls WITH SPACES########\033[0;37m
+   ls
+echo -e \033[0;31m#########TEST ls -la /tmp##########\033[0;37m
+ls -la /tmp
+echo -e \033[0;31m##########TEST ls -la /tmp WITH PATH#########\033[0;37m
+/bin/ls -la /tmp
+echo -e \033[0;31m##########TEST ls -l *c#########\033[0;37m
+echo -e \033[0;31m##########SHOULD FAIL UNLESS HANDLING * WILDCARD#########\033[0;37m
+ls -l *c
+lsls
+lsls
+ls/bin/ls
+/bin/lsls
+ls/bin/ls
+/bin/ls/bin/ls
+/bin/ls/bin/ls
+/bin/ls/bin/ls
+/bin/ls/bin/ls
+/bin/ls/bin/ls
+/bin/lsls
+lsenv
+env

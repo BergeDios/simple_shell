@@ -1,0 +1,23 @@
+#!/bin/bash
+STR=$(ls)
+echo -e "\033[0;31m########TEST ls#######\033[0;37m"
+
+echo -e "\033[0;34m>>>>>>>>>EXPECTED<<<<<<<<<\033[0;32m"
+echo "$STR"
+echo -e "\033[0;34m>>>>>>>>>>GOT<<<<<<<<<<<<\033[0;37m"
+STR2="echo ls | ./shell2"
+echo $STR2
+echo -e "\033[0;31m########TEST ls WITH PATH########\033[0;37m"
+echo -e "\033[0;34m>>>>>>>>>EXPECTED<<<<<<<<<\033[0;32m"
+/bin/ls
+echo -e "\033[0;34m>>>>>>>>>>GOT<<<<<<<<<<<<\033[0;37m"
+echo "/bin/ls" | ./shell2
+echo -e "\033[0;31m########TEST ls WITH SPACES########\033[0;37m"
+   ls
+echo -e "\033[0;31m#########TEST ls -la /tmp##########\033[0;37m"
+ls -la /tmp
+echo -e "\033[0;31m##########TEST ls -la /tmp WITH PATH#########\033[0;37m"
+/bin/ls -la /tmp
+echo -e "\033[0;31m##########TEST ls -l *c#########\033[0;37m"
+echo -e "\033[0;31m##########SHOULD FAIL UNLESS HANDLING * WILDCARD#########\033[0;37m"
+ls -l *c
