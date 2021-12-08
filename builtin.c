@@ -44,6 +44,9 @@ int save_history(void)
  */
 void __exit(char *line, char *token_list[], char *envp_copy[])
 {
+	if (token_list[1] != NULL)
+		errstat = atoi(token_list[1]);
+
 	if (line)
 		free(line);
 	if (token_list)
